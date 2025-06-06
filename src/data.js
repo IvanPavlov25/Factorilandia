@@ -19,30 +19,129 @@ export class GameData {
         tema: "Diferencia de Cuadrados",
         descripcion: "Esta isla enseña a factorizar expresiones de la forma a² - b², que se convierten en (a+b)(a-b)",
         enemigos: [
-          {nombre: "Minion Espejo", pregunta: "¿Factoriza: x^2 - 4?", respuesta: "(x+2)(x-2)", salud: 30, color: "#ff9800"},
-          {nombre: "Guardián Reflexivo", pregunta: "¿Factoriza: y^2 - 25?", respuesta: "(y+5)(y-5)", salud: 45, color: "#ffa726"},
+          {
+            nombre: "Minion Espejo",
+            salud: 30,
+            color: "#ff9800",
+            ejercicios: [
+              {pregunta: "¿Factoriza: x^2 - 4?", respuesta: "(x+2)(x-2)"},
+              {pregunta: "¿Factoriza: a^2 - 9?", respuesta: "(a+3)(a-3)"},
+              {pregunta: "¿Factoriza: 4x^2 - 1?", respuesta: "(2x+1)(2x-1)"}
+            ],
+            pregunta: "¿Factoriza: x^2 - 4?",
+            respuesta: "(x+2)(x-2)"
+          },
+          {
+            nombre: "Guardián Reflexivo",
+            salud: 45,
+            color: "#ffa726",
+            ejercicios: [
+              {pregunta: "¿Factoriza: y^2 - 25?", respuesta: "(y+5)(y-5)"},
+              {pregunta: "¿Factoriza: 16m^2 - n^2?", respuesta: "(4m+n)(4m-n)"},
+              {pregunta: "¿Factoriza: 49p^2 - 36q^2?", respuesta: "(7p+6q)(7p-6q)"}
+            ],
+            pregunta: "¿Factoriza: y^2 - 25?",
+            respuesta: "(y+5)(y-5)"
+          }
         ],
-        monstruo: {nombre: "Espectro Δ²", pregunta: "¿Factoriza: 9a^2 - 16b^2?", respuesta: "(3a+4b)(3a-4b)", salud: 70},
+        monstruo: {
+          nombre: "Espectro Δ²",
+          salud: 70,
+          ejercicios: [
+            {pregunta: "¿Factoriza: 4x^2 - 25?", respuesta: "(2x+5)(2x-5)"},
+            {pregunta: "¿Factoriza: 9y^2 - 4?", respuesta: "(3y+2)(3y-2)"},
+            {pregunta: "¿Factoriza: 16a^2 - 81b^2?", respuesta: "(4a+9b)(4a-9b)"},
+            {pregunta: "¿Factoriza: 25k^2 - 1?", respuesta: "(5k+1)(5k-1)"}
+          ],
+          pregunta: "¿Factoriza: 4x^2 - 25?",
+          respuesta: "(2x+5)(2x-5)"
+        },
       },
       {
         nombre: "Bosque Simétrico", 
         tema: "Trinomio Cuadrado Perfecto",
         descripcion: "Aprende a identificar y factorizar expresiones de la forma a² + 2ab + b², que se convierten en (a+b)²",
         enemigos: [
-          {nombre: "Minion Simétrico", pregunta: "¿Factoriza: x^2 + 6x + 9?", respuesta: "(x+3)^2", salud: 35, color: "#8bc34a"},
-          {nombre: "Guardián Perfecto", pregunta: "¿Factoriza: y^2 - 10y + 25?", respuesta: "(y-5)^2", salud: 50, color: "#7cb342"},
+          {
+            nombre: "Minion Simétrico",
+            salud: 35,
+            color: "#8bc34a",
+            ejercicios: [
+              {pregunta: "¿Factoriza: x^2 + 6x + 9?", respuesta: "(x+3)^2"},
+              {pregunta: "¿Factoriza: a^2 - 8a + 16?", respuesta: "(a-4)^2"},
+              {pregunta: "¿Factoriza: m^2 + 10m + 25?", respuesta: "(m+5)^2"}
+            ],
+            pregunta: "¿Factoriza: x^2 + 6x + 9?",
+            respuesta: "(x+3)^2"
+          },
+          {
+            nombre: "Guardián Perfecto",
+            salud: 50,
+            color: "#7cb342",
+            ejercicios: [
+              {pregunta: "¿Factoriza: y^2 - 10y + 25?", respuesta: "(y-5)^2"},
+              {pregunta: "¿Factoriza: p^2 + 14p + 49?", respuesta: "(p+7)^2"},
+              {pregunta: "¿Factoriza: n^2 - 12n + 36?", respuesta: "(n-6)^2"}
+            ],
+            pregunta: "¿Factoriza: y^2 - 10y + 25?",
+            respuesta: "(y-5)^2"
+          }
         ],
-        monstruo: {nombre: "Monstruo TCP", pregunta: "¿Factoriza: 4a^2 + 12a + 9?", respuesta: "(2a+3)^2", salud: 80},
+        monstruo: {
+          nombre: "Monstruo TCP",
+          salud: 80,
+          ejercicios: [
+            {pregunta: "¿Factoriza: 4a^2 + 12a + 9?", respuesta: "(2a+3)^2"},
+            {pregunta: "¿Factoriza: 9x^2 - 30x + 25?", respuesta: "(3x-5)^2"},
+            {pregunta: "¿Factoriza: 16m^2 + 40m + 25?", respuesta: "(4m+5)^2"},
+            {pregunta: "¿Factoriza: a^2 + 18a + 81?", respuesta: "(a+9)^2"}
+          ],
+          pregunta: "¿Factoriza: 4a^2 + 12a + 9?",
+          respuesta: "(2a+3)^2"
+        },
       },
       {
         nombre: "Llanuras Algebraicas", 
         tema: "Trinomio de la forma x² + bx + c",
         descripcion: "Aprende a factorizar expresiones donde el coeficiente de x² es 1",
         enemigos: [
-          {nombre: "Lobo Algebraico", pregunta: "¿Factoriza: x^2 + 5x + 6?", respuesta: "(x+2)(x+3)", salud: 40, color: "#26a69a"},
-          {nombre: "Guardián Coeficiente", pregunta: "¿Factoriza: x^2 - 7x + 12?", respuesta: "(x-3)(x-4)", salud: 55, color: "#009688"},
+          {
+            nombre: "Lobo Algebraico",
+            salud: 40,
+            color: "#26a69a",
+            ejercicios: [
+              {pregunta: "¿Factoriza: x^2 + 5x + 6?", respuesta: "(x+2)(x+3)"},
+              {pregunta: "¿Factoriza: x^2 - x - 6?", respuesta: "(x-3)(x+2)"},
+              {pregunta: "¿Factoriza: x^2 + 7x + 12?", respuesta: "(x+3)(x+4)"}
+            ],
+            pregunta: "¿Factoriza: x^2 + 5x + 6?",
+            respuesta: "(x+2)(x+3)"
+          },
+          {
+            nombre: "Guardián Coeficiente",
+            salud: 55,
+            color: "#009688",
+            ejercicios: [
+              {pregunta: "¿Factoriza: x^2 - 7x + 12?", respuesta: "(x-3)(x-4)"},
+              {pregunta: "¿Factoriza: x^2 + 2x - 15?", respuesta: "(x+5)(x-3)"},
+              {pregunta: "¿Factoriza: x^2 - 9x + 20?", respuesta: "(x-4)(x-5)"}
+            ],
+            pregunta: "¿Factoriza: x^2 - 7x + 12?",
+            respuesta: "(x-3)(x-4)"
+          }
         ],
-        monstruo: {nombre: "Lobo Coeficiente", pregunta: "¿Factoriza: x^2 - x - 12?", respuesta: "(x+3)(x-4)", salud: 90},
+        monstruo: {
+          nombre: "Lobo Coeficiente",
+          salud: 90,
+          ejercicios: [
+            {pregunta: "¿Factoriza: x^2 - x - 12?", respuesta: "(x+3)(x-4)"},
+            {pregunta: "¿Factoriza: x^2 + 4x - 21?", respuesta: "(x+7)(x-3)"},
+            {pregunta: "¿Factoriza: x^2 - 2x - 24?", respuesta: "(x-6)(x+4)"},
+            {pregunta: "¿Factoriza: x^2 + x - 20?", respuesta: "(x+5)(x-4)"}
+          ],
+          pregunta: "¿Factoriza: x^2 - x - 12?",
+          respuesta: "(x+3)(x-4)"
+        },
       }
       // Las siguientes islas se implementarán más adelante
     ];

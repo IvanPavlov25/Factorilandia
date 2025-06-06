@@ -34,57 +34,66 @@ export class Game {
   startCombat3D(tipo, islaIdx, enemigoIdx) {
     const isla = this.data.islas[islaIdx];
     let enemigo;
-    if(tipo==='minion') enemigo = isla.enemigos[enemigoIdx];
+    if (tipo === 'minion') enemigo = isla.enemigos[enemigoIdx];
     else enemigo = isla.monstruo;
-    this.combat3d.show(
-      enemigo.pregunta,
-      enemigo.respuesta,
-      enemigo.nombre,
-      enemigo.salud,
-      enemigo.respuesta,
-      (victoria) => {
-        if(victoria) {
-          this.hud.showMessage('¡Victoria! Has derrotado al enemigo.');
-          this.data.player.exp += tipo==='monstruo' ? 50 : 25;
-          this.data.player.monedas += tipo==='monstruo' ? 40 : 20;
-          
-          // Método simplificado para marcar enemigos derrotados
-          if (tipo === 'minion') {
-            if (!this.data.enemigosDerrotados.minions.some(e => e.isla === islaIdx && e.idx === enemigoIdx)) {
-              this.data.enemigosDerrotados.minions.push({isla: islaIdx, idx: enemigoIdx});
-              console.log("Minion derrotado y registrado:", islaIdx, enemigoIdx);
-              console.log("Estado actual:", JSON.stringify(this.data.enemigosDerrotados));
+
+    const ejercicios = enemigo.ejercicios || [{pregunta: enemigo.pregunta, respuesta: enemigo.respuesta}];
+    let idxActual = 0;
+
+    const lanzarEjercicio = () => {
+      const ej = ejercicios[idxActual];
+      this.combat3d.show(
+        ej.pregunta,
+        ej.respuesta,
+        enemigo.nombre,
+        enemigo.salud,
+        ej.respuesta,
+        (victoria) => {
+          if (victoria) {
+            idxActual++;
+            if (idxActual < ejercicios.length) {
+              setTimeout(lanzarEjercicio, 500);
+              return;
             }
-          } else if (tipo === 'monstruo') {
-            if (!this.data.enemigosDerrotados.monstruos.some(e => e.isla === islaIdx)) {
-              this.data.enemigosDerrotados.monstruos.push({isla: islaIdx});
-              console.log("Monstruo derrotado y registrado:", islaIdx);
-              console.log("Estado actual:", JSON.stringify(this.data.enemigosDerrotados));
+
+            this.hud.showMessage('¡Victoria! Has derrotado al enemigo.');
+            this.data.player.exp += tipo === 'monstruo' ? 50 : 25;
+            this.data.player.monedas += tipo === 'monstruo' ? 40 : 20;
+
+            if (tipo === 'minion') {
+              if (!this.data.enemigosDerrotados.minions.some(e => e.isla === islaIdx && e.idx === enemigoIdx)) {
+                this.data.enemigosDerrotados.minions.push({isla: islaIdx, idx: enemigoIdx});
+                console.log('Minion derrotado y registrado:', islaIdx, enemigoIdx);
+                console.log('Estado actual:', JSON.stringify(this.data.enemigosDerrotados));
+              }
+            } else if (tipo === 'monstruo') {
+              if (!this.data.enemigosDerrotados.monstruos.some(e => e.isla === islaIdx)) {
+                this.data.enemigosDerrotados.monstruos.push({isla: islaIdx});
+                console.log('Monstruo derrotado y registrado:', islaIdx);
+                console.log('Estado actual:', JSON.stringify(this.data.enemigosDerrotados));
+              }
             }
+          } else {
+            this.hud.showMessage('Has perdido el combate. Recupérate y vuelve a intentarlo.');
+            this.data.player.salud = this.data.player.saludMax;
           }
-        } else {
-          this.hud.showMessage('Has perdido el combate. Recupérate y vuelve a intentarlo.');
-          this.data.player.salud = this.data.player.saludMax;
+
+          this.hud.update();
+
+          if (victoria && tipo === 'monstruo' && idxActual >= ejercicios.length) {
+            setTimeout(() => {
+              this.map.cambiarIsla(islaIdx + 1);
+            }, 800);
+          } else if (victoria && idxActual >= ejercicios.length) {
+            setTimeout(() => {
+              this.map.draw();
+            }, 200);
+          }
         }
-        
-        // Actualizar HUD y mapa
-        this.hud.update();
-        
-        // Crear un pequeño retraso para asegurar que el redibujado ocurra después de que
-        // el UI de combate se haya ocultado completamente
-        if (tipo === 'monstruo') {
-          // Acabamos de derrotar al jefe: avanzamos automáticamente a la siguiente isla
-          setTimeout(() => {
-            this.map.cambiarIsla(islaIdx + 1);
-          }, 800);
-        } else {
-          // Redibuja el mapa para reflejar minions o cofres abiertos
-          setTimeout(() => {
-            this.map.draw();
-          }, 200);
-        }
-      }
-    );
+      );
+    };
+
+    lanzarEjercicio();
   }
   showTutorial() {
     const dom = document.getElementById('tutorial');
