@@ -15,6 +15,7 @@ export class CombatSystem {
     if(tipo==='minion') enemigo = JSON.parse(JSON.stringify(isla.enemigos[enemigoIdx]));
     else enemigo = JSON.parse(JSON.stringify(isla.monstruo));
     this.enemigo = enemigo;
+    this.enemigo.saludMax = enemigo.salud; // Track enemy's initial health
     this.monstruoFinal = (tipo==='monstruo');
     this.renderCombate();
   }
@@ -45,7 +46,7 @@ export class CombatSystem {
   }
   updateBarras() {
     let pctJ = Math.max(0, Math.min(1, this.data.player.salud/this.data.player.saludMax));
-    let pctE = Math.max(0, Math.min(1, this.enemigo.salud/(this.monstruoFinal?this.enemigo.salud+this.data.player.arma.daño:this.enemigo.salud+this.data.player.arma.daño)));
+    let pctE = Math.max(0, Math.min(1, this.enemigo.salud / this.enemigo.saludMax));
     document.getElementById('barraVidaJugador').style.width = (pctJ*100)+'%';
     document.getElementById('barraVidaEnemigo').style.width = (pctE*100)+'%';
   }
