@@ -21,22 +21,6 @@
   <div id="tutorial" style="display:none;"></div>
 </div>
 <script type="module" src="./src/game.js"></script>
-<script>
-  document.addEventListener("DOMContentLoaded", function() {
-    // Reload the data.js file after DOM content is loaded
-    fetch("./src/data.js")
-      .then(response => response.text())
-      .then(text => {
-        // Create a new script element
-        const script = document.createElement("script");
-        script.type = "module";
-        script.src = "./src/data.js";
-        script.textContent = text;
-
-        // Append the new script element to the head of the document
-        document.head.appendChild(script);
-      });
-  });
-</script>
+<script type="module" src="./src/data.js"></script>
 </body>
 </html> 
