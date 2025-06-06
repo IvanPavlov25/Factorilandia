@@ -1,0 +1,1016 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Factorilandia: La Aventura de los Números</title>
+    <!-- Fuentes cartoon y mágicas -->
+    <link href="https://fonts.googleapis.com/css2?family=Luckiest+Guy&family=Quicksand:wght@500;700&display=swap" rel="stylesheet">
+    <style>
+        /* --- ESTILOS GENERALES Y CARTOON --- */
+        body {
+            background: linear-gradient(135deg, #d9f9fb 0%, #f5e1ff 100%);
+            font-family: 'Quicksand', 'Comic Sans MS', cursive, sans-serif;
+            margin: 0;
+            overflow-x: hidden;
+        }
+        #gameContainer {
+            max-width: 960px;
+            margin: 30px auto 0 auto;
+            padding: 0;
+            background: #fff7ea;
+            border-radius: 24px;
+            box-shadow: 0 12px 36px #8884;
+            border: 4px solid #a3e6c1;
+            position: relative;
+            min-height: 700px;
+        }
+        /* --- MENÚ PRINCIPAL E INTRO --- */
+        #pantallaInicio, #pantallaCreditos, #pantallaConfig, #pantallaAcces {
+            display: none;
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(255,255,255,0.97);
+            z-index: 20;
+            border-radius: 24px;
+            animation: fadeIn 0.7s;
+        }
+        #pantallaInicio.activo, #pantallaCreditos.activo, #pantallaConfig.activo, #pantallaAcces.activo {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        #logoJuego {
+            font-family: 'Luckiest Guy', cursive;
+            font-size: 3.2em;
+            color: #52a7f7;
+            text-shadow: 2px 4px 0 #fff, 0 0 12px #52a7f7aa;
+            margin-bottom: 10px;
+            letter-spacing: 2px;
+        }
+        .btnMenu {
+            background: linear-gradient(90deg, #5bd3ed 60%, #b2f0c2 100%);
+            border: none;
+            border-radius: 16px;
+            padding: 18px 44px;
+            margin: 12px;
+            cursor: pointer;
+            font-size: 1.3em;
+            font-family: 'Luckiest Guy', cursive;
+            color: #fff;
+            box-shadow: 0 4px 16px #52a7f7aa;
+            transition: transform 0.15s, box-shadow 0.15s;
+        }
+        .btnMenu:hover {
+            transform: scale(1.07) rotate(-2deg);
+            box-shadow: 0 8px 32px #52a7f7cc;
+        }
+        /* --- HUD Y ELEMENTOS DE JUEGO --- */
+        #hud {
+            margin-bottom: 18px;
+            font-size: 1.1em;
+            background: #e3f3fc;
+            border-radius: 12px;
+            padding: 10px 18px;
+            box-shadow: 0 2px 8px #b2f0c2aa;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        #hud span, #hud button {
+            margin-right: 10px;
+        }
+        .isla {
+            display: inline-block;
+            margin: 10px;
+            padding: 18px 26px;
+            border-radius: 22px;
+            background: linear-gradient(120deg, #b2f0c2 80%, #5bd3ed 100%);
+            border: 4px solid #70be8c;
+            cursor: pointer;
+            font-family: 'Luckiest Guy', cursive;
+            font-size: 1.1em;
+            color: #2d5c3a;
+            box-shadow: 0 2px 12px #70be8c44;
+            transition: transform 0.18s, box-shadow 0.18s;
+            position: relative;
+        }
+        .isla.locked {
+            background: #eee;
+            border: 4px dashed #ccc;
+            color: #aaa;
+            cursor: not-allowed;
+            filter: grayscale(0.7);
+        }
+        .isla:not(.locked):hover {
+            transform: scale(1.06) rotate(-2deg);
+            box-shadow: 0 8px 32px #5bd3ed88;
+        }
+        .enemy, .cofre {
+            display: inline-block;
+            margin: 10px;
+            padding: 16px 18px;
+            border-radius: 16px;
+            background: linear-gradient(120deg, #ffefac 80%, #fcdfaf 100%);
+            border: 3px solid #e0c95b;
+            cursor: pointer;
+            font-family: 'Luckiest Guy', cursive;
+            font-size: 1.1em;
+            color: #a67c00;
+            box-shadow: 0 2px 10px #e0c95b44;
+            transition: transform 0.15s, box-shadow 0.15s;
+        }
+        .enemy:hover, .cofre:hover {
+            transform: scale(1.08) rotate(2deg);
+            box-shadow: 0 8px 32px #e0c95b88;
+        }
+        .selected {
+            box-shadow: 0 0 18px 5px #52a7f7;
+        }
+        #dialogo {
+            padding: 16px;
+            background: #e3f3fc;
+            border-radius: 14px;
+            margin-bottom: 12px;
+            min-height: 60px;
+            font-size: 1.1em;
+            box-shadow: 0 2px 8px #b2f0c2aa;
+            display: flex;
+            align-items: center;
+        }
+        #profesor {
+            width: 90px; height: 90px;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><ellipse cx="50" cy="60" rx="40" ry="30" fill="%23e3f3fc"/><ellipse cx="50" cy="50" rx="30" ry="35" fill="%23fff"/><ellipse cx="50" cy="60" rx="20" ry="18" fill="%23b2f0c2"/><circle cx="50" cy="45" r="18" fill="%23fff7ea"/><ellipse cx="40" cy="45" rx="3" ry="5" fill="%23000"/><ellipse cx="60" cy="45" rx="3" ry="5" fill="%23000"/><ellipse cx="50" cy="60" rx="8" ry="4" fill="%23e0c95b"/><rect x="44" y="70" width="12" height="8" rx="4" fill="%23a67c00"/><polygon points="50,10 55,35 45,35" fill="%2352a7f7"/></svg>') no-repeat center center;
+            background-size: contain;
+            margin-right: 18px;
+            border-radius: 50%;
+            border: 2px solid #52a7f7;
+            box-shadow: 0 2px 8px #52a7f7aa;
+            flex-shrink: 0;
+            animation: flotar 2.5s infinite ease-in-out alternate;
+        }
+        @keyframes flotar {
+            0% { transform: translateY(0); }
+            100% { transform: translateY(-10px); }
+        }
+        /* --- COMBATE --- */
+        #combate {
+            display: none;
+            background: #fff7ea;
+            border-radius: 18px;
+            box-shadow: 0 4px 16px #b2f0c2aa;
+            padding: 24px 18px 18px 18px;
+            margin: 0 auto 18px auto;
+            max-width: 500px;
+            position: relative;
+            animation: fadeIn 0.5s;
+        }
+        #combateQ {
+            font-weight: bold;
+            margin-bottom: 12px;
+            font-size: 1.2em;
+            color: #52a7f7;
+            text-shadow: 1px 1px 0 #fff;
+        }
+        #combateA {
+            font-size: 1.1em;
+            padding: 8px 12px;
+            border-radius: 8px;
+            border: 2px solid #b2f0c2;
+            margin-bottom: 8px;
+            width: 80%;
+            transition: border 0.2s;
+        }
+        #combateA:focus {
+            border: 2px solid #52a7f7;
+            outline: none;
+        }
+        .btn {
+            background: linear-gradient(90deg, #5bd3ed 60%, #b2f0c2 100%);
+            border: none;
+            border-radius: 12px;
+            padding: 10px 26px;
+            margin: 7px 7px 7px 0;
+            cursor: pointer;
+            font-size: 1.1em;
+            font-family: 'Luckiest Guy', cursive;
+            color: #fff;
+            box-shadow: 0 2px 8px #52a7f7aa;
+            transition: transform 0.13s, box-shadow 0.13s;
+        }
+        .btn:hover {
+            transform: scale(1.06);
+            box-shadow: 0 6px 24px #5bd3ed88;
+        }
+        #combateResult {
+            margin: 12px 0 4px 0;
+            font-weight: bold;
+            min-height: 24px;
+            font-size: 1.1em;
+            transition: color 0.3s;
+        }
+        .combate-animacion {
+            animation: shake 0.4s;
+        }
+        @keyframes shake {
+            0% { transform: translateX(0); }
+            20% { transform: translateX(-8px); }
+            40% { transform: translateX(8px); }
+            60% { transform: translateX(-8px); }
+            80% { transform: translateX(8px); }
+            100% { transform: translateX(0); }
+        }
+        /* --- ANIMACIONES Y TRANSICIONES --- */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        /* --- OTROS ELEMENTOS --- */
+        .item {
+            background: #f5cbff;
+            border-radius: 8px;
+            padding: 5px 9px;
+            margin: 3px;
+        }
+        #mapaIsla { min-height: 80px; }
+        /* --- ACCESIBILIDAD Y CONFIG --- */
+        .icon-btn {
+            background: none;
+            border: none;
+            cursor: pointer;
+            margin: 0 6px;
+            font-size: 1.3em;
+            color: #52a7f7;
+            transition: color 0.2s;
+        }
+        .icon-btn:hover { color: #a67c00; }
+        /* --- MAPA OVERWORLD SVG --- */
+        #overworld {
+            width: 100%;
+            height: 420px;
+            background: linear-gradient(180deg, #b2f0c2 60%, #fff7ea 100%);
+            border-radius: 18px;
+            margin: 0 auto 18px auto;
+            box-shadow: 0 4px 16px #b2f0c2aa;
+            position: relative;
+            overflow: hidden;
+        }
+        .map-nodo {
+            cursor: pointer;
+            transition: filter 0.2s, transform 0.2s;
+        }
+        .map-nodo:hover, .map-nodo.selected {
+            filter: drop-shadow(0 0 8px #52a7f7cc);
+            transform: scale(1.08);
+        }
+        .map-personaje {
+            transition: transform 0.3s cubic-bezier(.68,-0.55,.27,1.55);
+        }
+        /* --- COMBATE JRPG --- */
+        #combateJRPG {
+            display: none;
+            background: #e3f3fc;
+            border-radius: 18px;
+            box-shadow: 0 4px 16px #b2f0c2aa;
+            padding: 24px 18px 18px 18px;
+            margin: 0 auto 18px auto;
+            max-width: 600px;
+            position: relative;
+            animation: fadeIn 0.5s;
+        }
+        .combate-escena {
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-between;
+            min-height: 180px;
+        }
+        .combate-sprite {
+            width: 120px; height: 120px;
+            display: flex; align-items: flex-end; justify-content: center;
+        }
+        .combate-barra {
+            width: 120px; height: 16px;
+            background: #fff7ea;
+            border: 2px solid #b2f0c2;
+            border-radius: 8px;
+            margin-bottom: 6px;
+            overflow: hidden;
+        }
+        .combate-barra-vida {
+            height: 100%;
+            background: linear-gradient(90deg, #5bd3ed 60%, #b2f0c2 100%);
+            transition: width 0.4s;
+        }
+        .combate-nombre {
+            font-family: 'Luckiest Guy', cursive;
+            color: #52a7f7;
+            font-size: 1.1em;
+            text-align: center;
+        }
+        .combate-anim {
+            animation: shake 0.4s;
+        }
+        @keyframes shake {
+            0% { transform: translateX(0); }
+            20% { transform: translateX(-8px); }
+            40% { transform: translateX(8px); }
+            60% { transform: translateX(-8px); }
+            80% { transform: translateX(8px); }
+            100% { transform: translateX(0); }
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+    </style>
+</head>
+<body>
+<div id="gameContainer">
+    <!-- Menú principal cartoon -->
+    <div id="pantallaInicio">
+        <div id="logoJuego">Factorilandia</div>
+        <div style="font-size:1.3em; color:#70be8c; margin-bottom:18px; font-family:'Quicksand',cursive;">La Aventura de los Números</div>
+        <button class="btnMenu" onclick="iniciarJuego()">¡Jugar!</button>
+    </div>
+    <!-- Pantalla de créditos -->
+    <div id="pantallaCreditos">
+        <div style="font-family:'Luckiest Guy',cursive;font-size:2em;color:#52a7f7;">Créditos</div>
+        <div style="margin:18px 0 8px 0; font-size:1.1em;">Juego educativo desarrollado por el equipo Factorilandia.<br>Diseño, código y arte: <b>Tu Nombre</b>.<br>Basado en el GDD original.<br>2024.</div>
+        <button class="btnMenu" onclick="ocultarPantallas()">Volver</button>
+    </div>
+    <!-- Pantalla de configuración -->
+    <div id="pantallaConfig">
+        <div style="font-family:'Luckiest Guy',cursive;font-size:2em;color:#52a7f7;">Configuración</div>
+        <div style="margin:18px 0 8px 0; font-size:1.1em;">
+            <label>Volumen música: <input type="range" id="volMusica" min="0" max="1" step="0.01" value="0.5" onchange="ajustarVolumenMusica(this.value)"></label><br>
+            <label>Volumen efectos: <input type="range" id="volEfectos" min="0" max="1" step="0.01" value="0.7" onchange="ajustarVolumenEfectos(this.value)"></label>
+        </div>
+        <button class="btnMenu" onclick="ocultarPantallas()">Volver</button>
+    </div>
+    <!-- Pantalla de accesibilidad -->
+    <div id="pantallaAcces">
+        <div style="font-family:'Luckiest Guy',cursive;font-size:2em;color:#52a7f7;">Accesibilidad</div>
+        <div style="margin:18px 0 8px 0; font-size:1.1em;">
+            <label><input type="checkbox" id="altoContraste" onchange="toggleContraste()"> Alto contraste</label><br>
+            <label><input type="checkbox" id="fuenteGrande" onchange="toggleFuenteGrande()"> Fuente grande</label>
+        </div>
+        <button class="btnMenu" onclick="ocultarPantallas()">Volver</button>
+    </div>
+    <!-- HUD y juego principal -->
+    <div id="hud" style="display:none;">
+        <span>💪 Nivel: <span id="nivel">1</span></span> | 
+        <span>❤️ Salud: <span id="salud">100</span></span> | 
+        <span>✨ Exp: <span id="exp">0</span></span> | 
+        <span>🪙 Monedas: <span id="monedas">0</span></span> | 
+        <span>🧠 Orbes: <span id="orbes">3</span></span>
+        <button class="btn" onclick="mostrarInventario()">Inventario</button>
+        <button class="btn" onclick="mostrarTienda()">Tienda</button>
+        <button class="btn" onclick="mostrarTutorial()">Tutorial</button>
+        <button class="icon-btn" title="Configuración" onclick="mostrarPantalla('pantallaConfig')">⚙️</button>
+        <button class="icon-btn" title="Accesibilidad" onclick="mostrarPantalla('pantallaAcces')">🦾</button>
+        <button class="icon-btn" title="Créditos" onclick="mostrarPantalla('pantallaCreditos')">ℹ️</button>
+    </div>
+    <div id="dialogo" style="display:none;"><span id="profesor"></span><span id="mensaje"></span></div>
+    <div id="mapa">
+        <div id="mapaIslas"></div>
+        <div id="mapaIsla"></div>
+    </div>
+    <!-- Interfaz de combate mejorada -->
+    <div id="combate">
+        <div id="combateQ"></div>
+        <input id="combateA" placeholder="Escribe tu respuesta" onkeydown="if(event.key==='Enter'){responderCombate();}">
+        <button class="btn" onclick="responderCombate()">Responder</button>
+        <button class="btn" onclick="usarOrbe()">Usar Orbe de Sabiduría</button>
+        <div id="combateResult"></div>
+    </div>
+    <!-- Pantallas extra -->
+    <div id="tutorial">
+        <h3>Profesor Mágico</h3>
+        <div id="contenidoTutorial"></div>
+        <button class="btn" onclick="cerrarTutorial()">Cerrar</button>
+    </div>
+    <div id="tienda">
+        <h3>Tienda de Factorilandia</h3>
+        <div id="contenidoTienda"></div>
+        <button class="btn" onclick="cerrarTienda()">Cerrar</button>
+    </div>
+    <div id="inventario">
+        <h3>Inventario</h3>
+        <div id="contenidoInventario"></div>
+        <button class="btn" onclick="cerrarInventario()">Cerrar</button>
+    </div>
+    <!-- Mapa overworld SVG -->
+    <div id="overworld"></div>
+    <!-- Combate JRPG -->
+    <div id="combateJRPG">
+        <div class="combate-escena">
+            <div>
+                <div class="combate-barra"><div id="barraVidaJugador" class="combate-barra-vida"></div></div>
+                <div class="combate-sprite" id="spriteJugador"></div>
+                <div class="combate-nombre" id="nombreJugador"></div>
+            </div>
+            <div>
+                <div class="combate-barra"><div id="barraVidaEnemigo" class="combate-barra-vida"></div></div>
+                <div class="combate-sprite" id="spriteEnemigo"></div>
+                <div class="combate-nombre" id="nombreEnemigo"></div>
+            </div>
+        </div>
+        <div id="combateQ" style="margin:18px 0 8px 0;font-weight:bold;"></div>
+        <input id="combateA" placeholder="Escribe tu respuesta" onkeydown="if(event.key==='Enter'){responderCombateJRPG();}">
+        <button class="btn" onclick="responderCombateJRPG()">Responder</button>
+        <button class="btn" onclick="usarOrbe()">Usar Orbe de Sabiduría</button>
+        <div id="combateResult"></div>
+    </div>
+</div>
+<script>
+// ================== FACTORILANDIA: CÓDIGO PRINCIPAL ==================
+// --- Estado global y hooks para audio, expansión y guardado ---
+const STORAGE_KEY = 'factorilandia_save_v1';
+let musica = null, efectos = {}, volMusica = 0.5, volEfectos = 0.7;
+
+// --- Datos principales del juego (islas, preguntas, etc) ---
+const islas = [
+    {
+        nombre: "Isla 1: Trinomio Cuadrado Perfecto",
+        desbloqueada: true,
+        tema: "TCP",
+        enemigos: [
+            {nombre: "Minion del Cuadrado", pregunta: "¿Factoriza: x^2 + 6x + 9?", respuesta: "(x+3)^2", salud: 30},
+            {nombre: "Guardia Perfecto", pregunta: "¿Factoriza: y^2 - 10y + 25?", respuesta: "(y-5)^2", salud: 45},
+        ],
+        monstruo: {nombre: "Monstruo TCP", pregunta: "¿Factoriza: a^2 + 12a + 36?", respuesta: "(a+6)^2", salud: 70},
+        cofres: ["¿Cuál es la fórmula general del TCP?"],
+        tutorial: "El Trinomio Cuadrado Perfecto tiene la forma: x² + 2ax + a² = (x+a)². Observa si el primer y último término son cuadrados y el doble producto es el término central.",
+    },
+    {
+        nombre: "Isla 2: TCP Adición/Sustracción",
+        desbloqueada: false,
+        tema: "TCP+/-",
+        enemigos: [
+            {nombre: "Minion del Más", pregunta: "¿Factoriza: m^2 + 8m + 16?", respuesta: "(m+4)^2", salud: 32},
+            {nombre: "Minion del Menos", pregunta: "¿Factoriza: n^2 - 14n + 49?", respuesta: "(n-7)^2", salud: 32},
+        ],
+        monstruo: {nombre: "Monstruo TCP +/-", pregunta: "¿Factoriza: k^2 + 20k + 100?", respuesta: "(k+10)^2", salud: 80},
+        cofres: ["¿Qué representa el signo en el término central del TCP?"],
+        tutorial: "Recuerda observar si el término central es suma o resta. El procedimiento es similar al TCP clásico, solo que el signo afecta el binomio final.",
+    },
+    {
+        nombre: "Isla 3: Trinomios de la forma x²+bx+c",
+        desbloqueada: false,
+        tema: "x²+bx+c",
+        enemigos: [
+            {nombre: "Simplicio", pregunta: "¿Factoriza: x^2 + 5x + 6?", respuesta: "(x+2)(x+3)", salud: 40},
+            {nombre: "Complejín", pregunta: "¿Factoriza: x^2 - 3x - 28?", respuesta: "(x-7)(x+4)", salud: 48},
+        ],
+        monstruo: {nombre: "Monstruo Trinomio", pregunta: "¿Factoriza: x^2 + 7x + 12?", respuesta: "(x+3)(x+4)", salud: 90},
+        cofres: ["¿Cómo identifico los dos números para factorizar x²+bx+c?"],
+        tutorial: "Busca dos números que sumen b y multipliquen c. Escribe (x+m)(x+n).",
+    },
+    {
+        nombre: "Isla 4: Diferencia de Cuadrados",
+        desbloqueada: false,
+        tema: "Diferencia de cuadrados",
+        enemigos: [
+            {nombre: "Cuadradín", pregunta: "¿Factoriza: x^2 - 25?", respuesta: "(x+5)(x-5)", salud: 42},
+            {nombre: "Cuadramenor", pregunta: "¿Factoriza: 4y^2 - 9?", respuesta: "(2y+3)(2y-3)", salud: 45},
+        ],
+        monstruo: {nombre: "Monstruo DifCuad", pregunta: "¿Factoriza: 9a^2 - 16?", respuesta: "(3a+4)(3a-4)", salud: 95},
+        cofres: ["¿Cuál es la diferencia de cuadrados?"],
+        tutorial: "a²-b² = (a+b)(a-b). Observa si ambos términos son cuadrados perfectos separados por un menos.",
+    },
+    {
+        nombre: "Isla 5: Suma/Diferencia de Cubos",
+        desbloqueada: false,
+        tema: "Cubos",
+        enemigos: [
+            {nombre: "Sumator", pregunta: "¿Factoriza: x^3 + 27?", respuesta: "(x+3)(x^2-3x+9)", salud: 46},
+            {nombre: "Restator", pregunta: "¿Factoriza: y^3 - 8?", respuesta: "(y-2)(y^2+2y+4)", salud: 46},
+        ],
+        monstruo: {nombre: "Monstruo Cubos", pregunta: "¿Factoriza: a^3 + 64?", respuesta: "(a+4)(a^2-4a+16)", salud: 100},
+        cofres: ["¿Cómo se factorizan sumas y diferencias de cubos?"],
+        tutorial: "Suma de cubos: a³+b³=(a+b)(a²-ab+b²). Diferencia: a³-b³=(a-b)(a²+ab+b²).",
+    },
+    {
+        nombre: "Isla 6: Caso Combinado",
+        desbloqueada: false,
+        tema: "Combinado",
+        enemigos: [
+            {nombre: "Mezcladito", pregunta: "¿Factoriza: x^2 - 2x - 35?", respuesta: "(x-7)(x+5)", salud: 54},
+            {nombre: "DobleCaso", pregunta: "¿Factoriza: x^4 - 16?", respuesta: "(x^2+4)(x^2-4)", salud: 54},
+        ],
+        monstruo: {nombre: "Monstruo Combinado", pregunta: "¿Factoriza: x^4 - 81?", respuesta: "(x^2+9)(x^2-9)", salud: 120},
+        cofres: ["¿Qué hago cuando hay varios casos de factorización en el mismo ejercicio?"],
+        tutorial: "Aplica varios casos en secuencia. Factoriza el primer caso, luego mira si puedes factorizar los factores resultantes.",
+    },
+    {
+        nombre: "Isla 7: Isla del Monstruo Supremo",
+        desbloqueada: false,
+        tema: "Supremo",
+        enemigos: [
+            {nombre: "Guardian Final", pregunta: "¿Factoriza: x^3 - 27?", respuesta: "(x-3)(x^2+3x+9)", salud: 75},
+        ],
+        monstruo: {nombre: "Monstruo Supremo", pregunta: "¿Factoriza: x^4 - 16x^2 + 64?", respuesta: "(x^2-8)^2", salud: 160},
+        cofres: ["¿Qué significa dominar todos los casos de factorización?"],
+        tutorial: "Aquí se combinan todos los casos: analiza el polinomio y busca los patrones que aprendiste.",
+    }
+];
+
+// --- Estado del jugador y del juego ---
+let jugador = {
+    nivel: 1,
+    exp: 0,
+    salud: 100,
+    saludMax: 100,
+    monedas: 0,
+    orbes: 3,
+    inventario: [],
+    arma: {nombre: "Bastón básico", daño: 10, costo: 0},
+    expSigNivel: 60,
+    logros: [],
+    trajes: [],
+    upgrades: [],
+};
+let estado = {
+    islaActual: null,
+    enemigoActual: null,
+    monstruoFinal: false,
+    enCombate: false,
+    cofreActual: null,
+};
+
+// ================== MENÚ PRINCIPAL Y PANTALLAS ==================
+function mostrarPantalla(id) {
+    document.querySelectorAll('#pantallaInicio, #pantallaCreditos, #pantallaConfig, #pantallaAcces').forEach(p => p.classList.remove('activo'));
+    document.getElementById(id).classList.add('activo');
+}
+function ocultarPantallas() {
+    document.querySelectorAll('#pantallaInicio, #pantallaCreditos, #pantallaConfig, #pantallaAcces').forEach(p => p.classList.remove('activo'));
+}
+function iniciarJuego() {
+    ocultarPantallas();
+    document.getElementById('hud').style.display = '';
+    document.getElementById('dialogo').style.display = 'flex';
+    mostrarIslas();
+    reproducirMusica('exploracion');
+}
+
+// ================== HUD Y MENSAJES ==================
+function actualizarHUD() {
+    document.getElementById('nivel').textContent = jugador.nivel;
+    document.getElementById('salud').textContent = jugador.salud;
+    document.getElementById('exp').textContent = jugador.exp;
+    document.getElementById('monedas').textContent = jugador.monedas;
+    document.getElementById('orbes').textContent = jugador.orbes;
+}
+function mostrarMensaje(texto, profesor = true) {
+    document.getElementById('mensaje').innerHTML = texto;
+    document.getElementById('profesor').style.display = profesor ? 'inline-block' : 'none';
+}
+
+// ================== MAPA Y ISLAS ==================
+function mostrarIslas() {
+    let html = '';
+    islas.forEach((isla, i) => {
+        html += `<div class="isla${isla.desbloqueada ? '' : ' locked'}" onclick="seleccionarIsla(${i})">${isla.nombre}<br><small>${isla.tema}</small></div>`;
+    });
+    document.getElementById('mapaIslas').innerHTML = html;
+    document.getElementById('mapaIsla').innerHTML = '';
+    mostrarMensaje('Elige una isla para explorar. ¡Recuerda consultar el tutorial del profesor mágico!', true);
+}
+function seleccionarIsla(idx) {
+    if (!islas[idx].desbloqueada) return;
+    estado.islaActual = idx;
+    mostrarMapaIsla();
+}
+function mostrarMapaIsla() {
+    const isla = islas[estado.islaActual];
+    let html = `<h4>${isla.nombre}</h4><div>`;
+    html += `<span class="enemy" onclick="iniciarCombate(0)">Enemigo 1</span> <span class="enemy" onclick="iniciarCombate(1)">Enemigo 2</span> <span class="enemy" onclick="iniciarCombate('jefe')">Monstruo Guardián</span></div>`;
+    html += `<div><span class="cofre" onclick="abrirCofre()">Cofre de Conocimiento</span></div>`;
+    document.getElementById('mapaIsla').innerHTML = html;
+    mostrarMensaje(`Has llegado a <b>${isla.nombre}</b>. Habla con el Profesor para un tutorial o enfréntate a los retos.`, true);
+}
+
+// ================== COMBATE Y PREGUNTAS ==================
+function iniciarCombate(enemigoIdx) {
+    estado.enCombate = true;
+    document.getElementById('combate').style.display = 'block';
+    document.getElementById('mapaIsla').innerHTML = '';
+    let enemigo;
+    const isla = islas[estado.islaActual];
+    if (enemigoIdx === 'jefe') {
+        enemigo = JSON.parse(JSON.stringify(isla.monstruo));
+        estado.monstruoFinal = true;
+    } else {
+        enemigo = JSON.parse(JSON.stringify(isla.enemigos[enemigoIdx]));
+        estado.monstruoFinal = false;
+    }
+    estado.enemigoActual = enemigo;
+    document.getElementById('combateQ').textContent = `${enemigo.nombre}: ${enemigo.pregunta}`;
+    document.getElementById('combateA').value = '';
+    document.getElementById('combateResult').textContent = '';
+    mostrarMensaje('¡Responde correctamente para atacar! Si fallas, el monstruo te dañará.', false);
+    reproducirMusica('combate');
+}
+function respuestasEquivalentes(resp1, resp2) {
+    // Normaliza: quita espacios, minúsculas, reemplaza x por *, quita paréntesis redundantes, etc.
+    const norm = s => s.replace(/\s/g,'').replace(/\*\*/g,'^').replace(/\(([^()]+)\)/g,'$1').toLowerCase();
+    
+    // Intenta comparación directa y sin signos +
+    if (norm(resp1) === norm(resp2) || norm(resp1).replace(/\+/g,'') === norm(resp2).replace(/\+/g,'')) {
+        return true;
+    }
+    
+    // Maneja propiedad conmutativa para expresiones como (x+a)(x-a) vs (x-a)(x+a)
+    // Extraer factores si hay dos conjuntos de paréntesis
+    const extractFactores = (s) => {
+        const matches = s.match(/\(([^()]+)\)\(([^()]+)\)/);
+        if (matches && matches.length >= 3) {
+            return [matches[1], matches[2]]; // Devuelve los dos factores
+        }
+        return null;
+    };
+    
+    // Intentar extraer factores de ambas respuestas
+    const factores1 = extractFactores(resp1.replace(/\s/g, ''));
+    const factores2 = extractFactores(resp2.replace(/\s/g, ''));
+    
+    // Si ambas expresiones tienen factores, probar combinaciones conmutativas
+    if (factores1 && factores2) {
+        // Probar orden directo
+        if (norm(factores1[0]) === norm(factores2[0]) && norm(factores1[1]) === norm(factores2[1])) {
+            return true;
+        }
+        // Probar orden invertido (conmutativo)
+        if (norm(factores1[0]) === norm(factores2[1]) && norm(factores1[1]) === norm(factores2[0])) {
+            return true;
+        }
+    }
+    
+    return false;
+}
+function responderCombate() {
+    const input = document.getElementById('combateA').value.trim();
+    const enemigo = estado.enemigoActual;
+    let correcta = respuestasEquivalentes(input, enemigo.respuesta);
+    if (correcta) {
+        enemigo.salud -= jugador.arma.daño;
+        document.getElementById('combateResult').textContent = `¡Correcto! Le hiciste ${jugador.arma.daño} de daño.`;
+        document.getElementById('combateResult').style.color = '#2d5c3a';
+        animarCombate('acierto');
+        if (enemigo.salud <= 0) setTimeout(victoriaCombate, 700);
+        else setTimeout(siguienteTurnoEnemigo, 700);
+    } else {
+        jugador.salud -= 20;
+        document.getElementById('combateResult').textContent = `Incorrecto. El monstruo te hizo 20 de daño.`;
+        document.getElementById('combateResult').style.color = '#c0392b';
+        animarCombate('fallo');
+        actualizarHUD();
+        if (jugador.salud <= 0) setTimeout(derrotaCombate, 700);
+        else setTimeout(siguienteTurnoEnemigo, 700);
+    }
+}
+function animarCombate(tipo) {
+    const combate = document.getElementById('combate');
+    combate.classList.remove('combate-animacion');
+    void combate.offsetWidth; // reinicia animación
+    combate.classList.add('combate-animacion');
+    if (tipo==='acierto') combate.style.boxShadow = '0 0 24px #b2f0c2';
+    else combate.style.boxShadow = '0 0 24px #f5cbff';
+    setTimeout(()=>{ combate.style.boxShadow = ''; }, 500);
+}
+function siguienteTurnoEnemigo() {
+    const enemigo = estado.enemigoActual;
+    document.getElementById('combateQ').textContent = `${enemigo.nombre}: ${enemigo.pregunta} (${enemigo.salud} HP restantes)`;
+}
+function victoriaCombate() {
+    document.getElementById('combate').style.display = 'none';
+    estado.enCombate = false;
+    mostrarMensaje('¡Derrotaste al monstruo!', true);
+    reproducirMusica('exploracion');
+    reproducirEfecto('victoria');
+    let expGanada = estado.monstruoFinal ? 50 : 25;
+    let monedasGanadas = estado.monstruoFinal ? 40 : 20;
+    jugador.exp += expGanada;
+    jugador.monedas += monedasGanadas;
+    actualizarHUD();
+    subirNivelSiCorresponde();
+    if (estado.monstruoFinal) {
+        desbloquearSiguienteIsla();
+    }
+    guardarProgreso();
+}
+function derrotaCombate() {
+    document.getElementById('combate').style.display = 'none';
+    estado.enCombate = false;
+    mostrarMensaje('Has perdido el combate. Recupérate y vuelve a intentarlo.', true);
+    jugador.salud = jugador.saludMax;
+    actualizarHUD();
+    reproducirMusica('exploracion');
+    reproducirEfecto('derrota');
+    guardarProgreso();
+}
+function usarOrbe() {
+    if (jugador.orbes > 0) {
+        jugador.orbes--;
+        document.getElementById('combateResult').textContent = 'Pista: ' + estado.enemigoActual.respuesta;
+        document.getElementById('combateResult').style.color = '#52a7f7';
+        actualizarHUD();
+        reproducirEfecto('orbe');
+    } else {
+        document.getElementById('combateResult').textContent = 'No te quedan orbes de sabiduría.';
+        document.getElementById('combateResult').style.color = '#c0392b';
+        reproducirEfecto('error');
+    }
+}
+
+// ================== COFRES, TUTORIALES Y OTROS ==================
+function abrirCofre() {
+    const isla = islas[estado.islaActual];
+    const pregunta = isla.cofres[0];
+    mostrarMensaje(`Has abierto un Cofre de Conocimiento:<br><b>${pregunta}</b>`, true);
+    jugador.monedas += 10;
+    actualizarHUD();
+    reproducirEfecto('cofre');
+    guardarProgreso();
+}
+function mostrarTutorial() {
+    document.getElementById('tutorial').style.display = 'block';
+    document.getElementById('contenidoTutorial').innerHTML = islas[estado.islaActual]?.tutorial || "Selecciona una isla primero.";
+}
+function cerrarTutorial() { document.getElementById('tutorial').style.display = 'none'; }
+
+// ================== SUBIR DE NIVEL, DESBLOQUEOS Y PROGRESO ==================
+function subirNivelSiCorresponde() {
+    while (jugador.exp >= jugador.expSigNivel) {
+        jugador.exp -= jugador.expSigNivel;
+        jugador.nivel += 1;
+        jugador.saludMax += 20;
+        jugador.salud = jugador.saludMax;
+        jugador.expSigNivel = Math.round(jugador.expSigNivel * 1.2);
+        jugador.orbes += 1;
+        mostrarMensaje(`¡Has subido de nivel! Ahora eres nivel ${jugador.nivel}. Salud máxima y orbes aumentados.`, true);
+        reproducirEfecto('subirNivel');
+        actualizarHUD();
+    }
+}
+function desbloquearSiguienteIsla() {
+    if (estado.islaActual < islas.length - 1) {
+        islas[estado.islaActual + 1].desbloqueada = true;
+        mostrarMensaje('¡Has desbloqueado una nueva isla! Continúa tu aventura.', true);
+        mostrarIslas();
+        reproducirEfecto('desbloqueo');
+    } else {
+        mostrarMensaje('¡Has completado Factorilandia! Eres un Maestro de la Factorización.', true);
+        reproducirEfecto('victoria');
+    }
+}
+
+// ================== TIENDA, INVENTARIO Y OBJETOS ==================
+function mostrarTienda() {
+    document.getElementById('tienda').style.display = 'block';
+    let html = '';
+    html += '<div>Armas:<br>';
+    html += `<button class="btn" onclick="comprarArma('Vara Mágica',20,80)">Vara Mágica (+20 daño) - 80 monedas</button><br>`;
+    html += `<button class="btn" onclick="comprarArma('Espada Luminosa',35,180)">Espada Luminosa (+35 daño) - 180 monedas</button><br>`;
+    html += '<br>Objetos:<br>';
+    html += `<button class="btn" onclick="comprarObjeto('Poción de Salud', 'salud', 50, 40)">Poción de Salud (+50HP) - 40 monedas</button><br>`;
+    html += `<button class="btn" onclick="comprarObjeto('Orbe Extra', 'orbe', 1, 30)">Orbe de Sabiduría (+1) - 30 monedas</button><br>`;
+    html += '</div>';
+    document.getElementById('contenidoTienda').innerHTML = html;
+}
+function cerrarTienda() { document.getElementById('tienda').style.display = 'none'; }
+function comprarArma(nombre, daño, costo) {
+    if (jugador.monedas >= costo) {
+        jugador.monedas -= costo;
+        jugador.arma = {nombre, daño, costo};
+        mostrarMensaje(`¡Has comprado y equipado: ${nombre}!`, true);
+        reproducirEfecto('compra');
+        actualizarHUD();
+        guardarProgreso();
+    } else {
+        mostrarMensaje('No tienes monedas suficientes.', true);
+        reproducirEfecto('error');
+    }
+}
+function comprarObjeto(nombre, tipo, valor, costo) {
+    if (jugador.monedas >= costo) {
+        jugador.monedas -= costo;
+        if (tipo === 'salud') jugador.salud = Math.min(jugador.saludMax, jugador.salud + valor);
+        if (tipo === 'orbe') jugador.orbes += valor;
+        jugador.inventario.push({nombre, tipo, valor});
+        mostrarMensaje(`¡Has comprado: ${nombre}!`, true);
+        reproducirEfecto('compra');
+        actualizarHUD();
+        guardarProgreso();
+    } else {
+        mostrarMensaje('No tienes monedas suficientes.', true);
+        reproducirEfecto('error');
+    }
+}
+function mostrarInventario() {
+    document.getElementById('inventario').style.display = 'block';
+    let html = '';
+    if (jugador.inventario.length === 0) html = 'Inventario vacío.';
+    jugador.inventario.forEach((item,i) => {
+        html += `<div class="item">${item.nombre} <button onclick="usarItem(${i})">Usar</button></div>`;
+    });
+    document.getElementById('contenidoInventario').innerHTML = html;
+}
+function cerrarInventario() { document.getElementById('inventario').style.display = 'none'; }
+function usarItem(idx) {
+    const item = jugador.inventario[idx];
+    if (item.tipo === 'salud') jugador.salud = Math.min(jugador.saludMax, jugador.salud + item.valor);
+    if (item.tipo === 'orbe') jugador.orbes += item.valor;
+    mostrarMensaje(`Has usado: ${item.nombre}.`, true);
+    jugador.inventario.splice(idx, 1);
+    reproducirEfecto('usarItem');
+    actualizarHUD();
+    mostrarInventario();
+    guardarProgreso();
+}
+
+// ================== AUDIO Y EFECTOS (HOOKS) ==================
+function reproducirMusica(tipo) {
+    // Hook: aquí puedes cargar y reproducir música según el tipo (exploracion, combate, victoria...)
+    // Ejemplo: musica = new Audio('musica_exploracion.mp3'); musica.loop = true; musica.volume = volMusica; musica.play();
+}
+function reproducirEfecto(nombre) {
+    // Hook: aquí puedes reproducir efectos de sonido según el nombre (golpe, dano, victoria, derrota, cofre, compra, error, orbe, desbloqueo, subirNivel, usarItem...)
+    // Ejemplo: efectos[nombre] = new Audio('efecto_'+nombre+'.mp3'); efectos[nombre].volume = volEfectos; efectos[nombre].play();
+}
+function ajustarVolumenMusica(val) { volMusica = parseFloat(val); if(musica) musica.volume = volMusica; }
+function ajustarVolumenEfectos(val) { volEfectos = parseFloat(val); }
+
+// ================== ACCESIBILIDAD ==================
+function toggleContraste() {
+    document.body.style.filter = document.getElementById('altoContraste').checked ? 'contrast(1.4)' : '';
+}
+function toggleFuenteGrande() {
+    document.body.style.fontSize = document.getElementById('fuenteGrande').checked ? '1.25em' : '';
+}
+
+// ================== PROGRESO Y GUARDADO ==================
+function guardarProgreso() {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify({jugador, islas}));
+}
+function cargarProgreso() {
+    let data = localStorage.getItem(STORAGE_KEY);
+    if (data) {
+        let save = JSON.parse(data);
+        Object.assign(jugador, save.jugador);
+        for (let i=0; i<islas.length; i++) {
+            if (save.islas[i]) Object.assign(islas[i], save.islas[i]);
+        }
+    }
+}
+
+// ================== INICIO AUTOMÁTICO ==================
+window.onload = function() {
+    cargarProgreso();
+    // Muestra pantalla de inicio
+    document.getElementById('pantallaInicio').classList.add('activo');
+    actualizarHUD();
+    document.getElementById('dialogo').style.display = 'none';
+};
+
+// ================== MAPA OVERWORLD ==================
+// Nodos del mapa: cada uno puede ser camino, cofre, minion, monstruo, profesor, etc.
+const mapaNodos = [
+    {x:60, y:320, tipo:'inicio'},
+    {x:160, y:260, tipo:'minion', isla:0, idx:0},
+    {x:260, y:200, tipo:'cofre', isla:0},
+    {x:360, y:160, tipo:'minion', isla:0, idx:1},
+    {x:460, y:120, tipo:'profesor', isla:0},
+    {x:560, y:160, tipo:'monstruo', isla:0},
+    {x:660, y:220, tipo:'fin'},
+];
+let nodoActual = 0;
+
+function dibujarMapa() {
+    const svg = [`<svg width='100%' height='420' viewBox='0 0 800 420'>`];
+    // Caminos
+    for(let i=0;i<mapaNodos.length-1;i++){
+        svg.push(`<line x1='${mapaNodos[i].x}' y1='${mapaNodos[i].y}' x2='${mapaNodos[i+1].x}' y2='${mapaNodos[i+1].y}' stroke='#70be8c' stroke-width='10' stroke-linecap='round'/>`);
+    }
+    // Nodos
+    mapaNodos.forEach((nodo,i)=>{
+        let icon = '';
+        if(nodo.tipo==='inicio') icon = `<circle cx='${nodo.x}' cy='${nodo.y}' r='22' fill='#fff' stroke='#52a7f7' stroke-width='4'/><text x='${nodo.x}' y='${nodo.y+7}' font-size='18' text-anchor='middle' fill='#52a7f7'>IN</text>`;
+        if(nodo.tipo==='minion') icon = `<rect x='${nodo.x-20}' y='${nodo.y-20}' width='40' height='40' rx='12' fill='#ffe082' stroke='#a67c00' stroke-width='4'/><text x='${nodo.x}' y='${nodo.y+7}' font-size='18' text-anchor='middle' fill='#a67c00'>M</text>`;
+        if(nodo.tipo==='cofre') icon = `<rect x='${nodo.x-20}' y='${nodo.y-20}' width='40' height='40' rx='10' fill='#fcdfaf' stroke='#cfa345' stroke-width='4'/><text x='${nodo.x}' y='${nodo.y+7}' font-size='18' text-anchor='middle' fill='#cfa345'>C</text>`;
+        if(nodo.tipo==='monstruo') icon = `<ellipse cx='${nodo.x}' cy='${nodo.y}' rx='24' ry='20' fill='#f5cbff' stroke='#a67c00' stroke-width='4'/><text x='${nodo.x}' y='${nodo.y+7}' font-size='18' text-anchor='middle' fill='#a67c00'>BOSS</text>`;
+        if(nodo.tipo==='profesor') icon = `<ellipse cx='${nodo.x}' cy='${nodo.y}' rx='20' ry='18' fill='#b2f0c2' stroke='#52a7f7' stroke-width='4'/><text x='${nodo.x}' y='${nodo.y+7}' font-size='18' text-anchor='middle' fill='#52a7f7'>P</text>`;
+        if(nodo.tipo==='fin') icon = `<circle cx='${nodo.x}' cy='${nodo.y}' r='22' fill='#fff' stroke='#a67c00' stroke-width='4'/><text x='${nodo.x}' y='${nodo.y+7}' font-size='18' text-anchor='middle' fill='#a67c00'>FIN</text>`;
+        svg.push(`<g class='map-nodo${i===nodoActual?' selected':''}' data-idx='${i}'>${icon}</g>`);
+    });
+    // Personaje
+    const p = mapaNodos[nodoActual];
+    svg.push(`<g class='map-personaje' style='transform:translate(${p.x-30}px,${p.y-70}px)'>${svgPersonaje()}</g>`);
+    svg.push('</svg>');
+    document.getElementById('overworld').innerHTML = svg.join('');
+}
+function svgPersonaje() {
+    // SVG cartoon simple del personaje
+    return `<ellipse cx='30' cy='50' rx='28' ry='22' fill='#fff' stroke='#52a7f7' stroke-width='3'/><ellipse cx='30' cy='40' rx='18' ry='16' fill='#ffe082'/><ellipse cx='24' cy='40' rx='3' ry='5' fill='#000'/><ellipse cx='36' cy='40' rx='3' ry='5' fill='#000'/><ellipse cx='30' cy='55' rx='8' ry='4' fill='#a67c00'/><rect x='24' y='60' width='12' height='8' rx='4' fill='#52a7f7'/>`;
+}
+function svgProfesor() {
+    // SVG cartoon simple del profesor mágico
+    return `<ellipse cx='30' cy='50' rx='24' ry='18' fill='#e3f3fc' stroke='#52a7f7' stroke-width='2'/><ellipse cx='30' cy='40' rx='14' ry='12' fill='#fff'/><ellipse cx='24' cy='40' rx='2' ry='4' fill='#000'/><ellipse cx='36' cy='40' rx='2' ry='4' fill='#000'/><ellipse cx='30' cy='55' rx='6' ry='3' fill='#e0c95b'/><rect x='24' y='60' width='12' height='6' rx='3' fill='#a67c00'/><polygon points='30,18 36,38 24,38' fill='#52a7f7'/>`;
+}
+// Movimiento con flechas/teclas
+window.addEventListener('keydown', e=>{
+    if(document.activeElement.tagName==='INPUT') return;
+    if(e.key==='ArrowRight' && nodoActual<mapaNodos.length-1) { nodoActual++; dibujarMapa(); eventoNodo(); }
+    if(e.key==='ArrowLeft' && nodoActual>0) { nodoActual--; dibujarMapa(); eventoNodo(); }
+});
+function eventoNodo() {
+    const nodo = mapaNodos[nodoActual];
+    if(nodo.tipo==='minion') iniciarCombateJRPG('minion', nodo.isla, nodo.idx);
+    if(nodo.tipo==='monstruo') iniciarCombateJRPG('monstruo', nodo.isla);
+    if(nodo.tipo==='cofre') abrirCofreMapa(nodo.isla);
+    if(nodo.tipo==='profesor') mostrarMensaje("¡Hola! Soy el Profesor Mágico. Recuerda: para factorizar un TCP busca el cuadrado perfecto y el doble producto.");
+    if(nodo.tipo==='fin') mostrarMensaje("¡Felicidades! Has llegado al final de la isla.");
+}
+// ================== COMBATE JRPG ==================
+function iniciarCombateJRPG(tipo, islaIdx, enemigoIdx) {
+    document.getElementById('combateJRPG').style.display = 'block';
+    document.getElementById('overworld').style.display = 'none';
+    let enemigo;
+    const isla = islas[islaIdx];
+    if(tipo==='minion') enemigo = JSON.parse(JSON.stringify(isla.enemigos[enemigoIdx]));
+    else enemigo = JSON.parse(JSON.stringify(isla.monstruo));
+    estado.enemigoActual = enemigo;
+    estado.monstruoFinal = (tipo==='monstruo');
+    // Sprites y nombres
+    document.getElementById('spriteJugador').innerHTML = svgPersonaje();
+    document.getElementById('spriteEnemigo').innerHTML = tipo==='minion'?svgMinion():svgMonstruo();
+    document.getElementById('nombreJugador').textContent = 'Tú';
+    document.getElementById('nombreEnemigo').textContent = enemigo.nombre;
+    // Barras de vida
+    actualizarBarraVida('jugador', jugador.salud, jugador.saludMax);
+    actualizarBarraVida('enemigo', enemigo.salud, enemigo.salud);
+    // Pregunta
+    document.getElementById('combateQ').textContent = `${enemigo.pregunta}`;
+    document.getElementById('combateA').value = '';
+    document.getElementById('combateResult').textContent = '';
+    mostrarMensaje('¡Combate iniciado! Responde correctamente para atacar.', false);
+}
+function svgMinion() {
+    return `<ellipse cx='60' cy='60' rx='40' ry='30' fill='#ffe082' stroke='#a67c00' stroke-width='4'/><ellipse cx='50' cy='55' rx='8' ry='12' fill='#fff'/><ellipse cx='70' cy='55' rx='8' ry='12' fill='#fff'/><ellipse cx='50' cy='55' rx='3' ry='5' fill='#000'/><ellipse cx='70' cy='55' rx='3' ry='5' fill='#000'/><ellipse cx='60' cy='75' rx='12' ry='5' fill='#a67c00'/>`;
+}
+function svgMonstruo() {
+    return `<ellipse cx='60' cy='60' rx='44' ry='36' fill='#f5cbff' stroke='#a67c00' stroke-width='4'/><ellipse cx='50' cy='55' rx='10' ry='14' fill='#fff'/><ellipse cx='70' cy='55' rx='10' ry='14' fill='#fff'/><ellipse cx='50' cy='55' rx='4' ry='6' fill='#000'/><ellipse cx='70' cy='55' rx='4' ry='6' fill='#000'/><ellipse cx='60' cy='80' rx='16' ry='7' fill='#a67c00'/>`;
+}
+function actualizarBarraVida(quien, actual, max) {
+    let pct = Math.max(0, Math.min(1, actual/max));
+    document.getElementById(quien==='jugador'?'barraVidaJugador':'barraVidaEnemigo').style.width = (pct*100)+'%';
+}
+function responderCombateJRPG() {
+    const input = document.getElementById('combateA').value.trim();
+    const enemigo = estado.enemigoActual;
+    let correcta = respuestasEquivalentes(input, enemigo.respuesta);
+    if (correcta) {
+        enemigo.salud -= jugador.arma.daño;
+        document.getElementById('combateResult').textContent = `¡Correcto! Le hiciste ${jugador.arma.daño} de daño.`;
+        document.getElementById('spriteEnemigo').classList.add('combate-anim');
+        setTimeout(()=>document.getElementById('spriteEnemigo').classList.remove('combate-anim'),400);
+        actualizarBarraVida('enemigo', enemigo.salud, estado.monstruoFinal?enemigo.salud+jugador.arma.daño:enemigo.salud+jugador.arma.daño);
+        if (enemigo.salud <= 0) setTimeout(victoriaCombateJRPG, 700);
+        else setTimeout(()=>{
+            document.getElementById('combateQ').textContent = `${enemigo.pregunta} (${enemigo.salud} HP restantes)`;
+        }, 700);
+    } else {
+        jugador.salud -= 20;
+        document.getElementById('combateResult').textContent = `Incorrecto. El enemigo te hizo 20 de daño.`;
+        document.getElementById('spriteJugador').classList.add('combate-anim');
+        setTimeout(()=>document.getElementById('spriteJugador').classList.remove('combate-anim'),400);
+        actualizarBarraVida('jugador', jugador.salud, jugador.saludMax);
+        if (jugador.salud <= 0) setTimeout(derrotaCombateJRPG, 700);
+        else setTimeout(()=>{
+            document.getElementById('combateQ').textContent = `${enemigo.pregunta} (${enemigo.salud} HP restantes)`;
+        }, 700);
+    }
+    actualizarHUD();
+}
+function victoriaCombateJRPG() {
+    document.getElementById('combateJRPG').style.display = 'none';
+    document.getElementById('overworld').style.display = '';
+    mostrarMensaje('¡Victoria! Has derrotado al enemigo.', true);
+    // Recompensas, desbloqueos, etc.
+}
+function derrotaCombateJRPG() {
+    document.getElementById('combateJRPG').style.display = 'none';
+    document.getElementById('overworld').style.display = '';
+    mostrarMensaje('Has perdido el combate. Recupérate y vuelve a intentarlo.', true);
+    jugador.salud = jugador.saludMax;
+    actualizarHUD();
+}
+function abrirCofreMapa(islaIdx) {
+    mostrarMensaje('¡Has encontrado un cofre! Ganas 10 monedas.', true);
+    jugador.monedas += 10;
+    actualizarHUD();
+}
+</script>
+</body>
+</html>
