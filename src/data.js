@@ -52,43 +52,42 @@ export class GameData {
       // ************ ISLA 0: Diferencia de Cuadrados ************
       // Inicio - zona inferior izquierda
       {x:80, y:300, tipo:'inicio'},
-      {x:200, y:280, tipo:'profesor', isla:0},
-      {x:320, y:300, tipo:'cofre', isla:0, chestID:'chest1', parchment:0},
-      {x:440, y:240, tipo:'minion', isla:0, idx:0},
-      {x:560, y:200, tipo:'cofre', isla:0, chestID:'chest2', parchment:1},
-      {x:680, y:180, tipo:'minion', isla:0, idx:1},
-      {x:800, y:200, tipo:'cofre', isla:0, chestID:'chest3', parchment:2},
-      {x:920, y:250, tipo:'monstruo', isla:0},
+      {x:220, y:280, tipo:'profesor', isla:0},
+      {x:360, y:260, tipo:'minion', isla:0, idx:0},
+      {x:500, y:240, tipo:'cofre', isla:0, chestID:'chest1', parchment:0},
+      {x:640, y:220, tipo:'minion', isla:0, idx:1},
+      {x:780, y:240, tipo:'cofre', isla:0, chestID:'chest2', parchment:1},
+      {x:920, y:260, tipo:'monstruo', isla:0},
       
       // ************ ISLA 1: Trinomio Cuadrado Perfecto ************
       {x:80, y:200, tipo:'profesor', isla:1},
-      {x:200, y:160, tipo:'cofre', isla:1, chestID:'chest4', parchment:3},
-      {x:320, y:180, tipo:'minion', isla:1, idx:0},
-      {x:440, y:220, tipo:'minion', isla:1, idx:1},
-      {x:560, y:180, tipo:'cofre', isla:1, chestID:'chest5', parchment:0},
-      {x:680, y:220, tipo:'monstruo', isla:1},
+      {x:220, y:180, tipo:'minion', isla:1, idx:0},
+      {x:360, y:160, tipo:'cofre', isla:1, chestID:'chest4', parchment:3},
+      {x:500, y:180, tipo:'minion', isla:1, idx:1},
+      {x:640, y:160, tipo:'cofre', isla:1, chestID:'chest5', parchment:0},
+      {x:780, y:200, tipo:'monstruo', isla:1},
       
       // ************ ISLA 2: Trinomio de la forma x² + bx + c ************
       {x:80, y:250, tipo:'profesor', isla:2},
-      {x:200, y:220, tipo:'cofre', isla:2, chestID:'chest6', parchment:1},
-      {x:320, y:180, tipo:'minion', isla:2, idx:0},
-      {x:440, y:160, tipo:'minion', isla:2, idx:1},
-      {x:560, y:200, tipo:'cofre', isla:2, chestID:'chest7', parchment:2},
-      {x:680, y:240, tipo:'monstruo', isla:2},
-      {x:800, y:180, tipo:'fin', isla:2},
+      {x:220, y:230, tipo:'minion', isla:2, idx:0},
+      {x:360, y:210, tipo:'cofre', isla:2, chestID:'chest6', parchment:1},
+      {x:500, y:190, tipo:'minion', isla:2, idx:1},
+      {x:640, y:210, tipo:'cofre', isla:2, chestID:'chest7', parchment:2},
+      {x:780, y:240, tipo:'monstruo', isla:2},
+      {x:920, y:200, tipo:'fin', isla:2},
     ];
     
     // Rutas alternativas o atajos (para expansion futura)
     this.rutasAdicionales = [
       // Atajos para isla 0
-      {nodoOrigen: 2, nodoDestino: 5, desbloqueado: false},
-      {nodoOrigen: 4, nodoDestino: 6, desbloqueado: false},
-      
+      {nodoOrigen: 3, nodoDestino: 5, desbloqueado: false},
+      {nodoOrigen: 2, nodoDestino: 6, desbloqueado: false},
+
       // Atajos para isla 1
-      {nodoOrigen: 9, nodoDestino: 12, desbloqueado: false},
-      
+      {nodoOrigen: 9, nodoDestino: 11, desbloqueado: false},
+
       // Atajos para isla 2
-      {nodoOrigen: 16, nodoDestino: 19, desbloqueado: false}
+      {nodoOrigen: 14, nodoDestino: 18, desbloqueado: false}
     ];
     
     // Inicializar arrays de enemigos derrotados
