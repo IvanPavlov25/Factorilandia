@@ -1,0 +1,7 @@
+{
+  "name": "factorilandia",
+  "type": "module",
+  "scripts": {
+    "test": "node --test"
+  }
+}
