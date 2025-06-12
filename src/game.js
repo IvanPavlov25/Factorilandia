@@ -39,6 +39,9 @@ export class Game {
 
     const ejercicios = enemigo.ejercicios || [{pregunta: enemigo.pregunta, respuesta: enemigo.respuesta}];
     let idxActual = 0;
+    let hpActual = enemigo.salud;
+    const hpMax = enemigo.salud;
+    const damage = Math.ceil(hpMax / ejercicios.length);
 
     const lanzarEjercicio = () => {
       const ej = ejercicios[idxActual];
@@ -46,12 +49,15 @@ export class Game {
         ej.pregunta,
         ej.respuesta,
         enemigo.nombre,
-        enemigo.salud,
+        hpActual,
+        hpMax,
         ej.respuesta,
         (victoria) => {
           if (victoria) {
+            hpActual = Math.max(0, hpActual - damage);
+            this.combat3d.updateHP(hpActual, hpMax);
             idxActual++;
-            if (idxActual < ejercicios.length) {
+            if (hpActual > 0 && idxActual < ejercicios.length) {
               setTimeout(lanzarEjercicio, 500);
               return;
             }
@@ -73,9 +79,11 @@ export class Game {
                 console.log('Estado actual:', JSON.stringify(this.data.enemigosDerrotados));
               }
             }
+            this.combat3d.hide();
           } else {
             this.hud.showMessage('Has perdido el combate. Recupérate y vuelve a intentarlo.');
             this.data.player.salud = this.data.player.saludMax;
+            this.combat3d.hide();
           }
 
           this.hud.update();

@@ -552,7 +552,7 @@ export class Combat3D {
     this.ui.querySelector('#combat3d-pista').onclick = () => this.onPista();
   }
   
-  show(expresion, respuesta, enemigoNombre, enemigoHP, pista, onResult) {
+  show(expresion, respuesta, enemigoNombre, hpActual, hpMax, pista, onResult) {
     this.container.style.display = '';
     
     // Initialize components if not already initialized
@@ -564,7 +564,7 @@ export class Combat3D {
     // Check if WebGL initialization failed
     if (!this.initialized) {
       // Use a basic 2D fallback
-      this.initBasic2DMode(expresion, respuesta, enemigoNombre, enemigoHP);
+      this.initBasic2DMode(expresion, respuesta, enemigoNombre, hpActual, hpMax);
       return;
     }
     
@@ -584,8 +584,9 @@ export class Combat3D {
     
     this.ui.querySelector('#combat3d-expresion').textContent = expresion;
     this.ui.querySelector('#combat3d-enemigo-nombre').textContent = enemigoNombre;
-    this.ui.querySelector('#combat3d-enemigo-barra').style.width = '100%';
-    this.ui.querySelector('#combat3d-enemigo-hp').textContent = enemigoHP + '/' + enemigoHP;
+    const pct = Math.max(0, Math.min(1, hpActual / hpMax));
+    this.ui.querySelector('#combat3d-enemigo-barra').style.width = (pct * 100) + '%';
+    this.ui.querySelector('#combat3d-enemigo-hp').textContent = hpActual + '/' + hpMax;
     this.ui.querySelector('#combat3d-msg').textContent = '¡Batalla iniciada! Factoriza la expresión para atacar al enemigo.';
     this.respuesta = respuesta;
     this.pista = pista;
@@ -604,7 +605,7 @@ export class Combat3D {
     }
   }
   
-  initBasic2DMode(expresion, respuesta, enemigoNombre, enemigoHP) {
+  initBasic2DMode(expresion, respuesta, enemigoNombre, hpActual, hpMax) {
     // Create a simple 2D fallback for browsers without WebGL
     if (!this.basic2DUI) {
       this.basic2DUI = document.createElement('div');
@@ -658,7 +659,9 @@ export class Combat3D {
     
     // Update UI with current battle info
     document.getElementById('basic-enemy-name').textContent = enemigoNombre;
-    document.getElementById('basic-hp-text').textContent = `${enemigoHP}/${enemigoHP}`;
+    const pct = Math.max(0, Math.min(1, hpActual / hpMax));
+    document.getElementById('basic-hp-bar').style.width = (pct * 100) + '%';
+    document.getElementById('basic-hp-text').textContent = `${hpActual}/${hpMax}`;
     document.getElementById('basic-expression').textContent = expresion;
     document.getElementById('basic-message').textContent = '¡Batalla iniciada! Factoriza la expresión para atacar al enemigo.';
     document.getElementById('basic-input').value = '';
@@ -679,20 +682,16 @@ export class Combat3D {
     this.basic2DState.intentos++;
     
     if (this.respuestasEquivalentes(val, this.respuesta)) {
-      document.getElementById('basic-message').textContent = '¡Correcto! Has derrotado al enemigo.';
-      document.getElementById('basic-hp-bar').style.width = '0%';
-      document.getElementById('basic-hp-text').textContent = '0/' + document.getElementById('basic-hp-text').textContent.split('/')[1];
-      
+      document.getElementById('basic-message').textContent = '¡Correcto! Has dañado al enemigo.';
+
       setTimeout(() => {
-        this.hide();
         if (this.onResult) this.onResult(true);
       }, 1500);
     } else {
       document.getElementById('basic-message').textContent = 'Incorrecto. El enemigo te ataca.';
-      
+
       setTimeout(() => {
         if (this.basic2DState.intentos >= 3) {
-          this.hide();
           if (this.onResult) this.onResult(false);
         } else {
           document.getElementById('basic-message').textContent = 'Intenta de nuevo.';
@@ -754,6 +753,23 @@ export class Combat3D {
     
     // Remove animation loop
     this.animating = false;
+  }
+
+  updateHP(hpActual, hpMax) {
+    const pct = Math.max(0, Math.min(1, hpActual / hpMax));
+    if (this.ui) {
+      const bar = this.ui.querySelector('#combat3d-enemigo-barra');
+      const text = this.ui.querySelector('#combat3d-enemigo-hp');
+      if (bar) bar.style.width = (pct * 100) + '%';
+      if (text) text.textContent = `${hpActual}/${hpMax}`;
+    }
+
+    if (this.basic2DUI) {
+      const bar = document.getElementById('basic-hp-bar');
+      const text = document.getElementById('basic-hp-text');
+      if (bar) bar.style.width = (pct * 100) + '%';
+      if (text) text.textContent = `${hpActual}/${hpMax}`;
+    }
   }
   
   generarPistasProgresivas(expresion, respuesta) {
@@ -831,16 +847,6 @@ export class Combat3D {
         <div style="background:rgba(76,175,80,0.1);padding:10px;border-radius:6px;border:1px solid #4caf50;line-height:1.5;">Has dañado al enemigo.</div>
       `;
       
-      // Update enemy health bar with animation
-      const healthBar = this.ui.querySelector('#combat3d-enemigo-barra');
-      healthBar.style.transition = 'width 0.8s ease-in-out';
-      healthBar.style.width = '0%';
-      
-      // Update enemy HP text
-      const hpText = this.ui.querySelector('#combat3d-enemigo-hp');
-      const maxHP = hpText.textContent.split('/')[1];
-      hpText.textContent = `0/${maxHP}`;
-      
       // Crear efecto de ataque cuando la respuesta es correcta
       this.crearEfectoAtaque();
       
@@ -857,7 +863,6 @@ export class Combat3D {
         inputField.disabled = false;
         submitButton.disabled = false;
         
-        this.hide();
         if(this.onResult) this.onResult(true);
       }, 1800);
     } else {
@@ -885,7 +890,6 @@ export class Combat3D {
           inputField.disabled = false;
           submitButton.disabled = false;
           
-          this.hide();
           if(this.onResult) this.onResult(false);
         } else {
           // Reset input and re-enable
