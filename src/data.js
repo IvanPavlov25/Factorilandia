@@ -232,4 +232,4 @@ export class GameData {
     // Una isla está completa si su monstruo ha sido derrotado
     return this.esEnemigoDerrotado('monstruo', islaIdx);
   }
-} 
+}

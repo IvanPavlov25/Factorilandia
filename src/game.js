@@ -13,7 +13,7 @@ export class Game {
   constructor() {
     // Eliminar cualquier dato previo de localStorage
     localStorage.clear();
-    
+
     this.data = new GameData();
     this.hud = new HUD(this.data.player);
     this.parchments = new ParchmentManager();
@@ -29,7 +29,7 @@ export class Game {
     this.map.draw();
     this.hud.update();
   }
-  
+
   // Llamado por OverworldMap cuando se entra a un nodo de combate
   startCombat3D(tipo, islaIdx, enemigoIdx) {
     const isla = this.data.islas[islaIdx];
@@ -113,4 +113,4 @@ export class Game {
   }
 }
 // Inicialización global
-window.onload = () => { window.Factorilandia = new Game(); }; 
+window.onload = () => { window.Factorilandia = new Game(); };

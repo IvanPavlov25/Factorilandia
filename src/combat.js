@@ -55,12 +55,12 @@ export class CombatSystem {
   }
   respuestasEquivalentes(resp1, resp2) {
     const norm = s => s.replace(/\s/g,'').replace(/\*\*/g,'^').replace(/\(([^()]+)\)/g,'$1').toLowerCase();
-    
+
     // Intenta comparación directa y sin signos +
     if (norm(resp1) === norm(resp2) || norm(resp1).replace(/\+/g,'') === norm(resp2).replace(/\+/g,'')) {
         return true;
     }
-    
+
     // Maneja propiedad conmutativa para expresiones como (x+a)(x-a) vs (x-a)(x+a)
     // Extraer factores si hay dos conjuntos de paréntesis
     const extractFactores = (s) => {
@@ -70,11 +70,11 @@ export class CombatSystem {
         }
         return null;
     };
-    
+
     // Intentar extraer factores de ambas respuestas
     const factores1 = extractFactores(resp1.replace(/\s/g, ''));
     const factores2 = extractFactores(resp2.replace(/\s/g, ''));
-    
+
     // Si ambas expresiones tienen factores, probar combinaciones conmutativas
     if (factores1 && factores2) {
         // Probar orden directo
@@ -86,7 +86,7 @@ export class CombatSystem {
             return true;
         }
     }
-    
+
     return false;
   }
   responder() {
@@ -140,4 +140,4 @@ export class CombatSystem {
       document.getElementById('combateResult').textContent = 'No te quedan orbes de sabiduría.';
     }
   }
-} 
+}
