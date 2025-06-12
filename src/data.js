@@ -77,7 +77,7 @@ export class GameData {
       {x:920, y:200, tipo:'fin', isla:2},
     ];
     
-    // Rutas alternativas o atajos (para expansion futura)
+    // Rutas alternativas o atajos (para expansión futura)
     this.rutasAdicionales = [
       // Atajos para isla 0
       {nodoOrigen: 3, nodoDestino: 5, desbloqueado: false},
