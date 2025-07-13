@@ -13,13 +13,13 @@ export class GameData {
       arma: {nombre: "Bastón básico", daño: 10, costo: 0},
       expSigNivel: 60,
     };
-    this.islas = [
-      {
-        nombre: "Trynomium Incompletum",
-        tema: "Factorización de polinomios",
-        color: "#A0D8A8",
-        descripcion: "Una isla única que recopila los casos básicos de factorización.",
-        enemigos: [
+      this.islas = [
+        {
+          nombre: "Factorilandia",
+          tema: "Factorización de polinomios",
+          color: "#A0D8A8",
+          descripcion: "Isla que recorre en orden todos los casos de factorización.",
+          enemigos: [
           {
             nombre: "Monstruo Factor Común",
             salud: 60,
@@ -31,6 +31,18 @@ export class GameData {
             ],
             pregunta: "¿Factoriza: 3x + 6?",
             respuesta: "3(x+2)"
+          },
+          {
+            nombre: "Bestia de las Aspas",
+            salud: 70,
+            color: "#9e9d24",
+            ejercicios: [
+              {pregunta: "¿Factoriza: x^3 + 3x^2 + 2x + 6?", respuesta: "(x^2+2)(x+3)"},
+              {pregunta: "¿Factoriza: 2x^3 + 4x^2 + 3x + 6?", respuesta: "(2x^2+3)(x+2)"},
+              {pregunta: "¿Factoriza: a^3 + 2a^2 + 5a + 10?", respuesta: "(a^2+5)(a+2)"}
+            ],
+            pregunta: "¿Factoriza: x^3 + 3x^2 + 2x + 6?",
+            respuesta: "(x^2+2)(x+3)"
           },
           {
             nombre: "Monstruo TCP",
@@ -45,18 +57,6 @@ export class GameData {
             respuesta: "(2a+3)^2"
           },
           {
-            nombre: "Espectro Δ²",
-            salud: 70,
-            color: "#ff9800",
-            ejercicios: [
-              {pregunta: "¿Factoriza: 4x^2 - 25?", respuesta: "(2x+5)(2x-5)"},
-              {pregunta: "¿Factoriza: 9y^2 - 4?", respuesta: "(3y+2)(3y-2)"},
-              {pregunta: "¿Factoriza: 16a^2 - 81b^2?", respuesta: "(4a+9b)(4a-9b)"}
-            ],
-            pregunta: "¿Factoriza: 4x^2 - 25?",
-            respuesta: "(2x+5)(2x-5)"
-          },
-          {
             nombre: "Lobo Coeficiente",
             salud: 90,
             color: "#26a69a",
@@ -67,6 +67,18 @@ export class GameData {
             ],
             pregunta: "¿Factoriza: x^2 - x - 12?",
             respuesta: "(x+3)(x-4)"
+          },
+          {
+            nombre: "Espectro Cuadrático",
+            salud: 85,
+            color: "#ff8a65",
+            ejercicios: [
+              {pregunta: "¿Factoriza: x^2 - 3x - 4?", respuesta: "(x-4)(x+1)"},
+              {pregunta: "¿Factoriza: 2x^2 + x - 6?", respuesta: "(2x-3)(x+2)"},
+              {pregunta: "¿Factoriza: a^2 + 2a - 15?", respuesta: "(a+5)(a-3)"}
+            ],
+            pregunta: "¿Factoriza: x^2 - 3x - 4?",
+            respuesta: "(x-4)(x+1)"
           }
         ],
         monstruo: {
@@ -85,19 +97,21 @@ export class GameData {
     ];
     
     // Mapa estilo laberinto con nodos en una trayectoria más clara y organizada
-    this.mapNodos = [
-      {x:80,  y:300, tipo:'inicio'},
-      {x:170, y:280, tipo:'profesor', isla:0},
-      {x:260, y:300, tipo:'cofre', isla:0, chestID:'chest1', parchment:2},
-      {x:350, y:260, tipo:'minion', isla:0, idx:0},
-      {x:440, y:240, tipo:'cofre', isla:0, chestID:'chest2', parchment:3},
-      {x:530, y:220, tipo:'minion', isla:0, idx:1},
-      {x:620, y:200, tipo:'cofre', isla:0, chestID:'chest3', parchment:1},
-      {x:710, y:180, tipo:'minion', isla:0, idx:2},
-      {x:800, y:200, tipo:'cofre', isla:0, chestID:'chest4', parchment:4},
-      {x:890, y:220, tipo:'minion', isla:0, idx:3},
-      {x:980, y:240, tipo:'monstruo', isla:0},
-    ];
+      this.mapNodos = [
+        {x:60,  y:320, tipo:'inicio'},
+        {x:138, y:280, tipo:'profesor', isla:0},
+        {x:216, y:340, tipo:'cofre', isla:0, chestID:'chest1', parchment:0},
+        {x:294, y:260, tipo:'minion', isla:0, idx:0},
+        {x:372, y:320, tipo:'cofre', isla:0, chestID:'chest2', parchment:1},
+        {x:450, y:240, tipo:'minion', isla:0, idx:1},
+        {x:528, y:300, tipo:'cofre', isla:0, chestID:'chest3', parchment:2},
+        {x:606, y:220, tipo:'minion', isla:0, idx:2},
+        {x:684, y:280, tipo:'cofre', isla:0, chestID:'chest4', parchment:3},
+        {x:762, y:200, tipo:'minion', isla:0, idx:3},
+        {x:840, y:260, tipo:'cofre', isla:0, chestID:'chest5', parchment:4},
+        {x:918, y:180, tipo:'minion', isla:0, idx:4},
+        {x:996, y:240, tipo:'monstruo', isla:0},
+      ];
     
     // Rutas alternativas o atajos (para expansión futura)
     this.rutasAdicionales = [];
@@ -108,27 +122,27 @@ export class GameData {
       monstruos: []
     };
     
-    // Contenido educativo de los pergaminos reorganizado por temas
-    this.pergaminos = [
-      { 
-        titulo: "Introducción a la Factorización", 
-        contenido: "Factorizar un polinomio significa encontrar expresiones más simples que al multiplicarse dan el polinomio original. Es como encontrar los factores de un número."
-      },
-      { 
-        titulo: "Diferencia de Cuadrados", 
-        contenido: "Una expresión de la forma a² - b² puede factorizarse como (a+b)(a-b). Por ejemplo: x² - 4 = (x+2)(x-2)"
-      },
-      { 
-        titulo: "Factorización por factor común", 
-        contenido: "Si todos los términos de un polinomio tienen un factor común, podemos sacarlo como factor. Por ejemplo: 3x² + 6x = 3x(x + 2)"
+      // Contenido educativo de los pergaminos reorganizado por temas
+      this.pergaminos = [
+      {
+        titulo: "Factor común",
+        contenido: "Extraer el factor que se repite en todos los términos. Ejemplo: 3x² + 6x = 3x(x + 2)"
       },
       {
-        titulo: "Trinomios Cuadráticos Perfectos",
-        contenido: "Un trinomio de la forma a² + 2ab + b² puede factorizarse como (a + b)². Por ejemplo: x² + 6x + 9 = (x + 3)²"
+        titulo: "Factorización por aspas",
+        contenido: "Agrupar términos de dos en dos y extraer factor común. Ejemplo: x³ + 3x² + 2x + 6 = (x² + 2)(x + 3)"
       },
       {
-        titulo: "Trinomio general ax²+bx+c",
-        contenido: "Para factorizar ax²+bx+c se buscan dos números que multiplicados den ac y sumados den b, luego se usa agrupación para completar la factorización."
+        titulo: "Trinomio cuadrado perfecto",
+        contenido: "Forma: a² ± 2ab + b² = (a ± b)². Ejemplo: x² + 6x + 9 = (x + 3)²"
+      },
+      {
+        titulo: "Trinomio general",
+        contenido: "Buscar dos números que multiplicados den a·c y sumados b. Factorizar por agrupación. Ejemplo: 2x² + 5x + 2 = (2x + 1)(x + 2)"
+      },
+      {
+        titulo: "Ecuación cuadrática",
+        contenido: "Usar la fórmula x = [–b ± √(b² – 4ac)]/(2a) para hallar raíces y escribir como factores. Ejemplo: x² – 3x – 4 = (x – 4)(x + 1)"
       }
     ];
   }
