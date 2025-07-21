@@ -802,6 +802,15 @@ export class Combat3D {
         const c = parseInt(match[2]);
         this.pistasList.push(`Busca dos números que multiplicados den -${c} y sumados den ${b}.`);
       }
+    } else if (expresion.match(/\d+x\^2/)) {
+      // Trinomio general ax^2 + bx + c con a diferente de 1
+      const match = expresion.match(/(\d+)x\^2\s*([+-])\s*(\d+)x\s*([+-])\s*(\d+)/);
+      if (match) {
+        const a = parseInt(match[1]);
+        const b = parseInt(match[3]) * (match[2] === '-' ? -1 : 1);
+        const c = parseInt(match[5]) * (match[4] === '-' ? -1 : 1);
+        this.pistasList.push(`Busca dos números que multiplicados den ${a*c} y sumados den ${b}.`);
+      }
     } else if (expresion.includes('(x+3)^2')) {
       this.pistasList.push("Desarrolla la expresión (x+3)² = (x+3)(x+3).");
     }

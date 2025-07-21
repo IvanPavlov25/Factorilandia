@@ -37,12 +37,12 @@ export class GameData {
             salud: 70,
             color: "#9e9d24",
             ejercicios: [
-              {pregunta: "¿Factoriza: x^3 + 3x^2 + 2x + 6?", respuesta: "(x^2+2)(x+3)"},
-              {pregunta: "¿Factoriza: 2x^3 + 4x^2 + 3x + 6?", respuesta: "(2x^2+3)(x+2)"},
-              {pregunta: "¿Factoriza: a^3 + 2a^2 + 5a + 10?", respuesta: "(a^2+5)(a+2)"}
+              {pregunta: "¿Factoriza: 2x^2 + 7x + 3?", respuesta: "(2x+1)(x+3)"},
+              {pregunta: "¿Factoriza: 3x^2 + 8x + 4?", respuesta: "(3x+2)(x+2)"},
+              {pregunta: "¿Factoriza: 6a^2 + 11a + 3?", respuesta: "(3a+1)(2a+3)"}
             ],
-            pregunta: "¿Factoriza: x^3 + 3x^2 + 2x + 6?",
-            respuesta: "(x^2+2)(x+3)"
+            pregunta: "¿Factoriza: 2x^2 + 7x + 3?",
+            respuesta: "(2x+1)(x+3)"
           },
           {
             nombre: "Monstruo TCP",
@@ -130,7 +130,7 @@ export class GameData {
       },
       {
         titulo: "Factorización por aspas",
-        contenido: "Agrupar términos de dos en dos y extraer factor común. Ejemplo: x³ + 3x² + 2x + 6 = (x² + 2)(x + 3)"
+        contenido: "Para un trinomio ax^2+bx+c, busca dos números que multiplicados den a·c y sumados den b. Ejemplo: 2x²+7x+3 = (2x+1)(x+3)"
       },
       {
         titulo: "Trinomio cuadrado perfecto",

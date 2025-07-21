@@ -442,6 +442,8 @@ export class OverworldMap {
       this.reproducirSonido('cambioIsla');
       
       console.log(`Cambio a isla ${nuevaIsla} completado`);
+    } else if (nuevaIsla >= this.data.islas.length && this.data.esIslaCompletada(this.islaActual)) {
+      this.hud.showMessage('¡Lo lograste! Felicidades por completar Factorilandia.');
     }
   }
   
