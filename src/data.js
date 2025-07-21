@@ -98,19 +98,19 @@ export class GameData {
     
     // Mapa estilo laberinto con nodos en una trayectoria más clara y organizada
       this.mapNodos = [
-        {x:80,  y:300, tipo:'inicio'},
-        {x:156, y:280, tipo:'profesor', isla:0},
-        {x:232, y:300, tipo:'cofre', isla:0, chestID:'chest1', parchment:0},
-        {x:308, y:260, tipo:'minion', isla:0, idx:0},
-        {x:384, y:240, tipo:'cofre', isla:0, chestID:'chest2', parchment:1},
-        {x:460, y:220, tipo:'minion', isla:0, idx:1},
-        {x:536, y:200, tipo:'cofre', isla:0, chestID:'chest3', parchment:2},
-        {x:612, y:180, tipo:'minion', isla:0, idx:2},
-        {x:688, y:200, tipo:'cofre', isla:0, chestID:'chest4', parchment:3},
-        {x:764, y:220, tipo:'minion', isla:0, idx:3},
-        {x:840, y:240, tipo:'cofre', isla:0, chestID:'chest5', parchment:4},
-        {x:916, y:260, tipo:'minion', isla:0, idx:4},
-        {x:992, y:240, tipo:'monstruo', isla:0},
+        {x:70,  y:300, tipo:'inicio'},
+        {x:145, y:260, tipo:'profesor', isla:0},
+        {x:220, y:320, tipo:'cofre', isla:0, chestID:'chest1', parchment:0},
+        {x:295, y:260, tipo:'minion', isla:0, idx:0},
+        {x:370, y:320, tipo:'cofre', isla:0, chestID:'chest2', parchment:1},
+        {x:445, y:260, tipo:'minion', isla:0, idx:1},
+        {x:520, y:320, tipo:'cofre', isla:0, chestID:'chest3', parchment:2},
+        {x:595, y:260, tipo:'minion', isla:0, idx:2},
+        {x:670, y:320, tipo:'cofre', isla:0, chestID:'chest4', parchment:3},
+        {x:745, y:260, tipo:'minion', isla:0, idx:3},
+        {x:820, y:320, tipo:'cofre', isla:0, chestID:'chest5', parchment:4},
+        {x:895, y:260, tipo:'minion', isla:0, idx:4},
+        {x:970, y:320, tipo:'monstruo', isla:0},
       ];
     
     // Rutas alternativas o atajos (para expansión futura)
