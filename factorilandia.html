@@ -233,6 +233,23 @@
             margin: 3px;
         }
         #mapaIsla { min-height: 80px; }
+        /* --- MENSAJE FINAL LLAMATIVO --- */
+        #felicitacionesFinal {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(255,255,255,0.95);
+            z-index: 999;
+            font-family: 'Luckiest Guy', cursive;
+            color: #ff4081;
+            font-size: 4em;
+            text-align: center;
+            text-shadow: 2px 2px 0 #fff, 0 0 20px #ff4081;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            animation: fadeIn 0.8s;
+        }
         /* --- ACCESIBILIDAD Y CONFIG --- */
         .icon-btn {
             background: none;
@@ -421,6 +438,8 @@
         <button class="btn" onclick="usarOrbe()">Usar Orbe de Sabiduría</button>
         <div id="combateResult"></div>
     </div>
+    <!-- Letrero final de felicitación -->
+    <div id="felicitacionesFinal">¡Felicitaciones!<br>¡Lo lograste!</div>
 </div>
 <script>
 // ================== FACTORILANDIA: CÓDIGO PRINCIPAL ==================
@@ -467,7 +486,19 @@ const islas = [
         tutorial: "Busca dos números que sumen b y multipliquen c. Escribe (x+m)(x+n).",
     },
     {
-        nombre: "Isla 4: Diferencia de Cuadrados",
+        nombre: "Isla 4: Trinomios de la forma ax²+bx+c",
+        desbloqueada: false,
+        tema: "ax²+bx+c",
+        enemigos: [
+            {nombre: "Coeficientín", pregunta: "¿Factoriza: 2a^2 + 7a + 3?", respuesta: "(2a+1)(a+3)", salud: 52},
+            {nombre: "Escalador", pregunta: "¿Factoriza: 3x^2 - 8x - 3?", respuesta: "(3x+1)(x-3)", salud: 60},
+        ],
+        monstruo: {nombre: "Monstruo ax²+bx+c", pregunta: "¿Factoriza: 4x^2 + 11x + 6?", respuesta: "(4x+3)(x+2)", salud: 110},
+        cofres: ["¿Cómo se factoriza ax²+bx+c?"],
+        tutorial: "Para un trinomio ax²+bx+c, busca dos números que multiplicados den a·c y sumados den b. Reescribe y agrupa términos.",
+    },
+    {
+        nombre: "Isla 5: Diferencia de Cuadrados",
         desbloqueada: false,
         tema: "Diferencia de cuadrados",
         enemigos: [
@@ -479,7 +510,7 @@ const islas = [
         tutorial: "a²-b² = (a+b)(a-b). Observa si ambos términos son cuadrados perfectos separados por un menos.",
     },
     {
-        nombre: "Isla 5: Suma/Diferencia de Cubos",
+        nombre: "Isla 6: Suma/Diferencia de Cubos",
         desbloqueada: false,
         tema: "Cubos",
         enemigos: [
@@ -491,7 +522,7 @@ const islas = [
         tutorial: "Suma de cubos: a³+b³=(a+b)(a²-ab+b²). Diferencia: a³-b³=(a-b)(a²+ab+b²).",
     },
     {
-        nombre: "Isla 6: Caso Combinado",
+        nombre: "Isla 7: Caso Combinado",
         desbloqueada: false,
         tema: "Combinado",
         enemigos: [
@@ -503,15 +534,33 @@ const islas = [
         tutorial: "Aplica varios casos en secuencia. Factoriza el primer caso, luego mira si puedes factorizar los factores resultantes.",
     },
     {
-        nombre: "Isla 7: Isla del Monstruo Supremo",
+        nombre: "Isla 8: Método de las Aspas",
         desbloqueada: false,
-        tema: "Supremo",
+        tema: "Aspas",
         enemigos: [
-            {nombre: "Guardian Final", pregunta: "¿Factoriza: x^3 - 27?", respuesta: "(x-3)(x^2+3x+9)", salud: 75},
+            {nombre: "Guardián Final", pregunta: "¿Factoriza: x^3 - 27?", respuesta: "(x-3)(x^2+3x+9)", salud: 75},
         ],
-        monstruo: {nombre: "Monstruo Supremo", pregunta: "¿Factoriza: x^4 - 16x^2 + 64?", respuesta: "(x^2-8)^2", salud: 160},
-        cofres: ["¿Qué significa dominar todos los casos de factorización?"],
-        tutorial: "Aquí se combinan todos los casos: analiza el polinomio y busca los patrones que aprendiste.",
+        monstruo: {nombre: "Monstruo de las Aspas", pregunta: "¿Factoriza: 15x^2 - 11x - 12?", respuesta: "(5x+3)(3x-4)", salud: 160},
+        cofres: ["¿Cómo se aplica el método de las aspas?"],
+        tutorial: "Método de las aspas: multiplica a·c, busca dos números que sumen b y colócalos en forma de aspa para agrupar y factorizar.",
+    },
+    {
+        nombre: "Isla 9: Monstruo Supremo",
+        desbloqueada: false,
+        tema: "Examen Final",
+        enemigos: [
+            {nombre: "Retador TCP", pregunta: "¿Factoriza: x^2 + 10x + 25?", respuesta: "(x+5)^2", salud: 60},
+            {nombre: "Retador TCP +/-", pregunta: "¿Factoriza: a^2 - 14a + 49?", respuesta: "(a-7)^2", salud: 70},
+            {nombre: "Retador x²+bx+c", pregunta: "¿Factoriza: x^2 + 9x + 20?", respuesta: "(x+4)(x+5)", salud: 80},
+            {nombre: "Retador ax²+bx+c", pregunta: "¿Factoriza: 6x^2 + 13x + 6?", respuesta: "(3x+2)(2x+3)", salud: 90},
+            {nombre: "Retador DifCuad", pregunta: "¿Factoriza: 25x^2 - 4?", respuesta: "(5x+2)(5x-2)", salud: 100},
+            {nombre: "Retador Cubos", pregunta: "¿Factoriza: x^3 - 8?", respuesta: "(x-2)(x^2+2x+4)", salud: 110},
+            {nombre: "Retador Combinado", pregunta: "¿Factoriza: x^4 - 1?", respuesta: "(x^2+1)(x^2-1)", salud: 120},
+            {nombre: "Retador Aspas", pregunta: "¿Factoriza: 8x^2 - 2x - 3?", respuesta: "(4x+3)(2x-1)", salud: 130},
+        ],
+        monstruo: {nombre: "Monstruo Supremo", pregunta: "¿Factoriza: 2x^3 - 18x?", respuesta: "2x(x+3)(x-3)", salud: 200},
+        cofres: ["Demuestra que dominas todos los métodos de factorización."],
+        tutorial: "La isla del Monstruo Supremo reúne retos de todas las islas. ¡Es tu examen final en Factorilandia!",
     }
 ];
 
@@ -567,6 +616,12 @@ function mostrarMensaje(texto, profesor = true) {
     document.getElementById('profesor').style.display = profesor ? 'inline-block' : 'none';
 }
 
+function mostrarFelicitaciones() {
+    const cartel = document.getElementById('felicitacionesFinal');
+    cartel.style.display = 'flex';
+    reproducirEfecto('victoria');
+}
+
 // ================== MAPA Y ISLAS ==================
 function mostrarIslas() {
     let html = '';
@@ -585,7 +640,10 @@ function seleccionarIsla(idx) {
 function mostrarMapaIsla() {
     const isla = islas[estado.islaActual];
     let html = `<h4>${isla.nombre}</h4><div>`;
-    html += `<span class="enemy" onclick="iniciarCombate(0)">Enemigo 1</span> <span class="enemy" onclick="iniciarCombate(1)">Enemigo 2</span> <span class="enemy" onclick="iniciarCombate('jefe')">Monstruo Guardián</span></div>`;
+    isla.enemigos.forEach((_, i) => {
+        html += `<span class="enemy" onclick="iniciarCombate(${i})">Enemigo ${i+1}</span> `;
+    });
+    html += `<span class="enemy" onclick="iniciarCombate('jefe')">Monstruo Guardián</span></div>`;
     html += `<div><span class="cofre" onclick="abrirCofre()">Cofre de Conocimiento</span></div>`;
     document.getElementById('mapaIsla').innerHTML = html;
     mostrarMensaje(`Has llegado a <b>${isla.nombre}</b>. Habla con el Profesor para un tutorial o enfréntate a los retos.`, true);
@@ -761,8 +819,7 @@ function desbloquearSiguienteIsla() {
         mostrarIslas();
         reproducirEfecto('desbloqueo');
     } else {
-        mostrarMensaje('¡Has completado Factorilandia! Eres un Maestro de la Factorización.', true);
-        reproducirEfecto('victoria');
+        mostrarFelicitaciones();
     }
 }
 
