@@ -250,7 +250,8 @@ export class OverworldMap {
           const nombreMonstruo = this.data.islas[nodo.isla]?.monstruo?.nombre || "Jefe";
           // Colores de monstruos por isla
           const coloresMonstruos = ['#f44336', '#e91e63', '#9c27b0', '#673ab7', '#3f51b5'];
-          const colorMonstruo = coloresMonstruos[nodo.isla % coloresMonstruos.length];
+          const colorMonstruo = this.data.islas[nodo.isla]?.monstruo?.color ||
+                                 coloresMonstruos[nodo.isla % coloresMonstruos.length];
           
           // Monstruo principal con diseño personalizado por isla
           icon = `

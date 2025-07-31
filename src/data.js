@@ -135,11 +135,36 @@ export class GameData {
             ],
             pregunta: "¿Factoriza: 4x^2 - x - 5?",
             respuesta: "(4x+5)(x-1)"
+          },
+          {
+            nombre: "Emboscador Discriminante",
+            salud: 80,
+            color: "#ffa726",
+            ejercicios: [
+              {pregunta: "¿Factoriza: 3x^2 - 2x - 8?", respuesta: "(3x+4)(x-2)"},
+              {pregunta: "¿Factoriza: 2a^2 + 3a - 9?", respuesta: "(2a-3)(a+3)"},
+              {pregunta: "¿Factoriza: 5m^2 - m - 4?", respuesta: "(5m+4)(m-1)"}
+            ],
+            pregunta: "¿Factoriza: 3x^2 - 2x - 8?",
+            respuesta: "(3x+4)(x-2)"
+          },
+          {
+            nombre: "Mercenario Factorial",
+            salud: 90,
+            color: "#8d6e63",
+            ejercicios: [
+              {pregunta: "¿Factoriza: 6x^2 + 7x - 3?", respuesta: "(3x-1)(2x+3)"},
+              {pregunta: "¿Factoriza: 4m^2 + 4m - 3?", respuesta: "(2m-1)(2m+3)"},
+              {pregunta: "¿Factoriza: 7a^2 - a - 6?", respuesta: "(7a+6)(a-1)"}
+            ],
+            pregunta: "¿Factoriza: 6x^2 + 7x - 3?",
+            respuesta: "(3x-1)(2x+3)"
           }
         ],
         monstruo: {
           nombre: "Señor ax²+bx+c",
           salud: 130,
+          color: "#e53935",
           ejercicios: [
             {pregunta: "¿Factoriza: 6x^2 + x - 2?", respuesta: "(3x+2)(2x-1)"},
             {pregunta: "¿Factoriza: 8a^2 + 14a + 3?", respuesta: "(4a+1)(2a+3)"},
@@ -174,7 +199,12 @@ export class GameData {
         {x:445, y:260, tipo:'minion', isla:1, idx:1},
         {x:520, y:320, tipo:'cofre', isla:1, chestID:'chest8', parchment:2},
         {x:595, y:260, tipo:'minion', isla:1, idx:2},
-        {x:670, y:320, tipo:'monstruo', isla:1},
+        {x:670, y:320, tipo:'cofre', isla:1, chestID:'chest9', parchment:3},
+        {x:745, y:260, tipo:'minion', isla:1, idx:3},
+        {x:820, y:320, tipo:'cofre', isla:1, chestID:'chest10', parchment:4},
+        {x:895, y:260, tipo:'minion', isla:1, idx:4},
+        {x:970, y:320, tipo:'monstruo', isla:1},
+        {x:1045, y:260, tipo:'fin', isla:1},
       ];
     
     // Rutas alternativas o atajos (para expansión futura)
