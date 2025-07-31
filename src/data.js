@@ -93,6 +93,98 @@ export class GameData {
           pregunta: "¿Factoriza: 8m^2 - 12m?",
           respuesta: "4m(2m-3)"
         }
+      },
+      {
+        nombre: "Isla ax²+bx+c",
+        tema: "Trinomios generales",
+        color: "#F0A0D8",
+        descripcion: "En esta isla aprenderás a factorizar trinomios con coeficiente principal distinto de 1.",
+        enemigos: [
+          {
+            nombre: "Bandido Ax²",
+            salud: 70,
+            color: "#ab47bc",
+            ejercicios: [
+              {pregunta: "¿Factoriza: 2x^2 + 5x + 3?", respuesta: "(2x+3)(x+1)"},
+              {pregunta: "¿Factoriza: 3x^2 + 10x + 7?", respuesta: "(3x+7)(x+1)"},
+              {pregunta: "¿Factoriza: 4a^2 + 11a + 6?", respuesta: "(4a+3)(a+2)"}
+            ],
+            pregunta: "¿Factoriza: 2x^2 + 5x + 3?",
+            respuesta: "(2x+3)(x+1)"
+          },
+          {
+            nombre: "Asaltante Bx",
+            salud: 80,
+            color: "#ff7043",
+            ejercicios: [
+              {pregunta: "¿Factoriza: 5x^2 + 13x + 6?", respuesta: "(5x+3)(x+2)"},
+              {pregunta: "¿Factoriza: 6m^2 + 7m - 3?", respuesta: "(3m-1)(2m+3)"},
+              {pregunta: "¿Factoriza: 3y^2 - 4y - 4?", respuesta: "(3y+2)(y-2)"}
+            ],
+            pregunta: "¿Factoriza: 5x^2 + 13x + 6?",
+            respuesta: "(5x+3)(x+2)"
+          },
+          {
+            nombre: "Cazador C",
+            salud: 85,
+            color: "#26a69a",
+            ejercicios: [
+              {pregunta: "¿Factoriza: 4x^2 - x - 5?", respuesta: "(4x+5)(x-1)"},
+              {pregunta: "¿Factoriza: 7x^2 + 2x - 3?", respuesta: "(7x-3)(x+1)"},
+              {pregunta: "¿Factoriza: 3a^2 - a - 4?", respuesta: "(3a+4)(a-1)"}
+            ],
+            pregunta: "¿Factoriza: 4x^2 - x - 5?",
+            respuesta: "(4x+5)(x-1)"
+          },
+          {
+            nombre: "Emboscador Discriminante",
+            salud: 80,
+            color: "#ffa726",
+            ejercicios: [
+              {pregunta: "¿Factoriza: 3x^2 - 2x - 8?", respuesta: "(3x+4)(x-2)"},
+              {pregunta: "¿Factoriza: 2a^2 + 3a - 9?", respuesta: "(2a-3)(a+3)"},
+              {pregunta: "¿Factoriza: 5m^2 - m - 4?", respuesta: "(5m+4)(m-1)"}
+            ],
+            pregunta: "¿Factoriza: 3x^2 - 2x - 8?",
+            respuesta: "(3x+4)(x-2)"
+          },
+          {
+            nombre: "Mercenario Factorial",
+            salud: 90,
+            color: "#8d6e63",
+            ejercicios: [
+              {pregunta: "¿Factoriza: 6x^2 + 7x - 3?", respuesta: "(3x-1)(2x+3)"},
+              {pregunta: "¿Factoriza: 4m^2 + 4m - 3?", respuesta: "(2m-1)(2m+3)"},
+              {pregunta: "¿Factoriza: 7a^2 - a - 6?", respuesta: "(7a+6)(a-1)"}
+            ],
+            pregunta: "¿Factoriza: 6x^2 + 7x - 3?",
+            respuesta: "(3x-1)(2x+3)"
+          },
+          {
+            nombre: "Guardián Trinomio",
+            salud: 95,
+            color: "#42a5f5",
+            ejercicios: [
+              {pregunta: "¿Factoriza: 5x^2 + 4x - 1?", respuesta: "(5x-1)(x+1)"},
+              {pregunta: "¿Factoriza: 3m^2 + 5m - 2?", respuesta: "(3m-1)(m+2)"},
+              {pregunta: "¿Factoriza: 2a^2 - 7a + 3?", respuesta: "(2a-1)(a-3)"}
+            ],
+            pregunta: "¿Factoriza: 5x^2 + 4x - 1?",
+            respuesta: "(5x-1)(x+1)"
+          }
+        ],
+        monstruo: {
+          nombre: "Señor ax²+bx+c",
+          salud: 130,
+          color: "#e53935",
+          ejercicios: [
+            {pregunta: "¿Factoriza: 6x^2 + x - 2?", respuesta: "(3x+2)(2x-1)"},
+            {pregunta: "¿Factoriza: 8a^2 + 14a + 3?", respuesta: "(4a+1)(2a+3)"},
+            {pregunta: "¿Factoriza: 9m^2 - 6m - 8?", respuesta: "(3m+2)(3m-4)"}
+          ],
+          pregunta: "¿Factoriza: 6x^2 + x - 2?",
+          respuesta: "(3x+2)(2x-1)"
+        }
       }
     ];
     
@@ -111,6 +203,21 @@ export class GameData {
         {x:820, y:320, tipo:'cofre', isla:0, chestID:'chest5', parchment:4},
         {x:895, y:260, tipo:'minion', isla:0, idx:4},
         {x:970, y:320, tipo:'monstruo', isla:0},
+        // Isla 1: ax²+bx+c
+        {x:145, y:260, tipo:'profesor', isla:1},
+        {x:220, y:320, tipo:'cofre', isla:1, chestID:'chest6', parchment:0},
+        {x:295, y:260, tipo:'minion', isla:1, idx:0},
+        {x:370, y:320, tipo:'cofre', isla:1, chestID:'chest7', parchment:1},
+        {x:445, y:260, tipo:'minion', isla:1, idx:1},
+        {x:520, y:320, tipo:'cofre', isla:1, chestID:'chest8', parchment:2},
+        {x:595, y:260, tipo:'minion', isla:1, idx:2},
+        {x:670, y:320, tipo:'cofre', isla:1, chestID:'chest9', parchment:3},
+        {x:745, y:260, tipo:'minion', isla:1, idx:3},
+        {x:820, y:320, tipo:'cofre', isla:1, chestID:'chest10', parchment:4},
+        {x:895, y:260, tipo:'minion', isla:1, idx:4},
+        {x:970, y:260, tipo:'minion', isla:1, idx:5},
+        {x:1045, y:320, tipo:'monstruo', isla:1},
+        {x:1120, y:260, tipo:'fin', isla:1},
       ];
     
     // Rutas alternativas o atajos (para expansión futura)
