@@ -93,6 +93,61 @@ export class GameData {
           pregunta: "¿Factoriza: 8m^2 - 12m?",
           respuesta: "4m(2m-3)"
         }
+      },
+      {
+        nombre: "Isla ax²+bx+c",
+        tema: "Trinomio general",
+        color: "#F4C2C2",
+        descripcion: "Trinomios con coeficiente principal distinto de 1.",
+        enemigos: [
+          {
+            nombre: "Coeficientín",
+            salud: 70,
+            color: "#ffab91",
+            ejercicios: [
+              {pregunta: "¿Factoriza: 2x^2 + 7x + 3?", respuesta: "(2x+1)(x+3)"},
+              {pregunta: "¿Factoriza: 3x^2 + 8x + 4?", respuesta: "(3x+2)(x+2)"},
+              {pregunta: "¿Factoriza: 4x^2 + 4x + 1?", respuesta: "(2x+1)^2"}
+            ],
+            pregunta: "¿Factoriza: 2x^2 + 7x + 3?",
+            respuesta: "(2x+1)(x+3)"
+          },
+          {
+            nombre: "Escalador",
+            salud: 80,
+            color: "#f48fb1",
+            ejercicios: [
+              {pregunta: "¿Factoriza: 3x^2 - 8x - 3?", respuesta: "(3x+1)(x-3)"},
+              {pregunta: "¿Factoriza: 5y^2 + y - 6?", respuesta: "(5y-6)(y+1)"},
+              {pregunta: "¿Factoriza: 2m^2 + m - 15?", respuesta: "(2m+5)(m-3)"}
+            ],
+            pregunta: "¿Factoriza: 3x^2 - 8x - 3?",
+            respuesta: "(3x+1)(x-3)"
+          },
+          {
+            nombre: "Ajustador",
+            salud: 85,
+            color: "#ce93d8",
+            ejercicios: [
+              {pregunta: "¿Factoriza: 6x^2 + 13x + 6?", respuesta: "(3x+2)(2x+3)"},
+              {pregunta: "¿Factoriza: 5p^2 - 4p - 1?", respuesta: "(5p+1)(p-1)"},
+              {pregunta: "¿Factoriza: 7a^2 + 22a + 8?", respuesta: "(7a+4)(a+2)"}
+            ],
+            pregunta: "¿Factoriza: 6x^2 + 13x + 6?",
+            respuesta: "(3x+2)(2x+3)"
+          }
+        ],
+        monstruo: {
+          nombre: "Monstruo ax²+bx+c",
+          salud: 120,
+          ejercicios: [
+            {pregunta: "¿Factoriza: 4x^2 + 11x + 6?", respuesta: "(4x+3)(x+2)"},
+            {pregunta: "¿Factoriza: 9a^2 - 12a + 4?", respuesta: "(3a-2)^2"},
+            {pregunta: "¿Factoriza: 10x^2 - 27x + 9?", respuesta: "(5x-3)(2x-3)"}
+          ],
+          pregunta: "¿Factoriza: 4x^2 + 11x + 6?",
+          respuesta: "(4x+3)(x+2)"
+        }
       }
     ];
     
@@ -111,6 +166,14 @@ export class GameData {
         {x:820, y:320, tipo:'cofre', isla:0, chestID:'chest5', parchment:4},
         {x:895, y:260, tipo:'minion', isla:0, idx:4},
         {x:970, y:320, tipo:'monstruo', isla:0},
+        {x:145, y:260, tipo:'profesor', isla:1},
+        {x:220, y:320, tipo:'cofre', isla:1, chestID:'chest6', parchment:3},
+        {x:295, y:260, tipo:'minion', isla:1, idx:0},
+        {x:370, y:320, tipo:'cofre', isla:1, chestID:'chest7', parchment:4},
+        {x:445, y:260, tipo:'minion', isla:1, idx:1},
+        {x:520, y:320, tipo:'cofre', isla:1, chestID:'chest8', parchment:0},
+        {x:595, y:260, tipo:'minion', isla:1, idx:2},
+        {x:670, y:320, tipo:'monstruo', isla:1},
       ];
     
     // Rutas alternativas o atajos (para expansión futura)
