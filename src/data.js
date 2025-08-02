@@ -68,7 +68,7 @@ export class GameData {
             pregunta: "¿Factoriza: x^2 - x - 12?",
             respuesta: "(x+3)(x-4)"
           },
-          {
+          { 
             nombre: "Espectro Cuadrático",
             salud: 85,
             color: "#ff8a65",
@@ -79,6 +79,18 @@ export class GameData {
             ],
             pregunta: "¿Factoriza: x^2 - 3x - 4?",
             respuesta: "(x-4)(x+1)"
+          },
+          {
+            nombre: "Dragón de la Diferencia",
+            salud: 95,
+            color: "#ba68c8",
+            ejercicios: [
+              {pregunta: "¿Factoriza: x^2 - 16?", respuesta: "(x+4)(x-4)"},
+              {pregunta: "¿Factoriza: 4a^2 - 25?", respuesta: "(2a+5)(2a-5)"},
+              {pregunta: "¿Factoriza: 9m^2 - 16?", respuesta: "(3m+4)(3m-4)"}
+            ],
+            pregunta: "¿Factoriza: x^2 - 16?",
+            respuesta: "(x+4)(x-4)"
           }
         ],
         monstruo: {
@@ -165,14 +177,16 @@ export class GameData {
         {x:745, y:260, tipo:'minion', isla:0, idx:3},
         {x:820, y:320, tipo:'cofre', isla:0, chestID:'chest5', parchment:4},
         {x:895, y:260, tipo:'minion', isla:0, idx:4},
-        {x:970, y:320, tipo:'monstruo', isla:0},
+        {x:970, y:320, tipo:'cofre', isla:0, chestID:'chest6', parchment:5},
+        {x:1045, y:260, tipo:'minion', isla:0, idx:5},
+        {x:1120, y:320, tipo:'monstruo', isla:0},
         // Isla 1: ax²+bx+c
         {x:145, y:260, tipo:'profesor', isla:1},
-        {x:220, y:320, tipo:'cofre', isla:1, chestID:'chest6', parchment:0},
+        {x:220, y:320, tipo:'cofre', isla:1, chestID:'chest7', parchment:0},
         {x:295, y:260, tipo:'minion', isla:1, idx:0},
-        {x:370, y:320, tipo:'cofre', isla:1, chestID:'chest7', parchment:1},
+        {x:370, y:320, tipo:'cofre', isla:1, chestID:'chest8', parchment:1},
         {x:445, y:260, tipo:'minion', isla:1, idx:1},
-        {x:520, y:320, tipo:'cofre', isla:1, chestID:'chest8', parchment:2},
+        {x:520, y:320, tipo:'cofre', isla:1, chestID:'chest9', parchment:2},
         {x:595, y:260, tipo:'minion', isla:1, idx:2},
         {x:670, y:320, tipo:'monstruo', isla:1},
       ];
@@ -207,6 +221,10 @@ export class GameData {
       {
         titulo: "Ecuación cuadrática",
         contenido: "Usar la fórmula x = [–b ± √(b² – 4ac)]/(2a) para hallar raíces y escribir como factores. Ejemplo: x² – 3x – 4 = (x – 4)(x + 1)"
+      },
+      {
+        titulo: "Diferencia de cuadrados",
+        contenido: "Forma: a² - b² = (a + b)(a - b). Ejemplo: x² - 16 = (x + 4)(x - 4)"
       }
     ];
   }
