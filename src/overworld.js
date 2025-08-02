@@ -14,10 +14,16 @@ export class OverworldMap {
     this.moviendo = false;
     this.direccion = 1; // 1 derecha, -1 izquierda
     this.animacion = null;
-    
+
+    // contenedor del overworld y configuración inicial de estilos
+    this.container = document.getElementById('overworld');
+    if (this.container) {
+      this.container.classList.add('overworld-container');
+    }
+
     // Nueva propiedad para controlar qué isla se está mostrando actualmente
     this.islaActual = 0;
-    
+
     window.addEventListener('keydown', e => this.handleKey(e));
   }
   
@@ -47,12 +53,24 @@ export class OverworldMap {
   }
   
   draw() {
+    // 1) Medir ancho y calcular paso entre nodos
+    const width = this.container ? this.container.clientWidth : 0;
+    const count = this.nodos.length;
+    const padding = 40;
+    const usable = width - padding * 2;
+    const step = count > 1 ? usable / (count - 1) : 0;
+
+    // 2) Reasignar x de cada nodo
+    this.nodos.forEach((nodo, i) => {
+      nodo.x = padding + step * i;
+    });
+
     // Obtener nodos filtrados para la isla actual
     const nodosVisibles = this.getNodosIslaActual();
-    
+
     // Limpiar cualquier contenido previo del SVG
-    document.getElementById('overworld').innerHTML = '';
-    
+    this.container.innerHTML = '';
+
     console.log(`Dibujando isla ${this.islaActual} con ${nodosVisibles.length} nodos visibles`);
     
     // SVG fondo tipo Mario World
@@ -319,7 +337,7 @@ export class OverworldMap {
       // No dibujar el ícono final directamente si ya se dibujó
       if (nodo.tipo !== 'fin') {
         svg.push(`
-          <g class='map-nodo${idxOriginal === this.nodoActual ? ' selected' : ''}' 
+          <g class='map-nodo node${idxOriginal === this.nodoActual ? ' selected' : ''}'
              data-idx='${idxOriginal}' 
              transform='translate(${pos.x-30},${pos.y-40}) scale(${escala})' 
              style='filter: ${filtro}; opacity: ${esAccesible ? 0.9 : 1}'>
@@ -344,7 +362,7 @@ export class OverworldMap {
     }
     
     svg.push('</svg>');
-    document.getElementById('overworld').innerHTML = svg.join('');
+    this.container.innerHTML = svg.join('');
     
     // Añade animación al personaje
     if (nodoActualVisible) {
@@ -430,7 +448,7 @@ export class OverworldMap {
       }
       
       // FORZAR un reinicio completo del mapa
-      document.getElementById('overworld').innerHTML = '';
+      this.container.innerHTML = '';
       
       // Redibujar el mapa con la nueva isla y nodos correctos
       this.draw();
@@ -534,7 +552,7 @@ export class OverworldMap {
         particula.style.top = `${alturaCurva}px`;
         particula.style.zIndex = '1000';
         particula.style.opacity = '0.8';
-        document.getElementById('overworld').appendChild(particula);
+        this.container.appendChild(particula);
         
         // Animar y eliminar partícula
         setTimeout(() => {

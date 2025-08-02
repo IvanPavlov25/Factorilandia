@@ -66,19 +66,28 @@ export class Game {
             this.data.player.exp += tipo === 'monstruo' ? 50 : 25;
             this.data.player.monedas += tipo === 'monstruo' ? 40 : 20;
 
-            if (tipo === 'minion') {
-              if (!this.data.enemigosDerrotados.minions.some(e => e.isla === islaIdx && e.idx === enemigoIdx)) {
-                this.data.enemigosDerrotados.minions.push({isla: islaIdx, idx: enemigoIdx});
-                console.log('Minion derrotado y registrado:', islaIdx, enemigoIdx);
-                console.log('Estado actual:', JSON.stringify(this.data.enemigosDerrotados));
+              if (tipo === 'minion') {
+                if (!this.data.enemigosDerrotados.minions.some(e => e.isla === islaIdx && e.idx === enemigoIdx)) {
+                  this.data.enemigosDerrotados.minions.push({isla: islaIdx, idx: enemigoIdx});
+                  console.log('Minion derrotado y registrado:', islaIdx, enemigoIdx);
+                  console.log('Estado actual:', JSON.stringify(this.data.enemigosDerrotados));
+                }
+              } else if (tipo === 'monstruo') {
+                if (!this.data.enemigosDerrotados.monstruos.some(e => e.isla === islaIdx)) {
+                  this.data.enemigosDerrotados.monstruos.push({isla: islaIdx});
+                  console.log('Monstruo derrotado y registrado:', islaIdx);
+                  console.log('Estado actual:', JSON.stringify(this.data.enemigosDerrotados));
+                }
+              } else if (tipo === 'jefe') {
+                // lógica existente para el jefe final (cambiarIsla, etc.)
+                setTimeout(() => {
+                  const overlay = document.createElement('div');
+                  overlay.id = 'congrats-overlay';
+                  overlay.innerHTML = `<div class="message">¡Felicidades! Lo has logrado!</div>`;
+                  document.body.appendChild(overlay);
+                  overlay.addEventListener('click', () => overlay.remove());
+                }, 500);
               }
-            } else if (tipo === 'monstruo') {
-              if (!this.data.enemigosDerrotados.monstruos.some(e => e.isla === islaIdx)) {
-                this.data.enemigosDerrotados.monstruos.push({isla: islaIdx});
-                console.log('Monstruo derrotado y registrado:', islaIdx);
-                console.log('Estado actual:', JSON.stringify(this.data.enemigosDerrotados));
-              }
-            }
             this.combat3d.hide();
           } else {
             this.hud.showMessage('Has perdido el combate. Recupérate y vuelve a intentarlo.');

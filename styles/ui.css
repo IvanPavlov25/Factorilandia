@@ -18,4 +18,38 @@
 @keyframes fadeIn { from { opacity:0; } to { opacity:1; } }
 @keyframes parchmentIn { from { transform: scale(0.8); opacity:0; } to { transform: scale(1); opacity:1; } }
 #inventario, #tienda, #tutorial { background: #e3f3fc; border-radius: 18px; box-shadow: 0 4px 16px #b2f0c2aa; padding: 24px 18px 18px 18px; margin: 0 auto 18px auto; max-width: 600px; position: relative; display: none; }
-#dialogo { padding: 16px; background: #e3f3fc; border-radius: 14px; margin-bottom: 12px; min-height: 60px; font-size: 1.1em; box-shadow: 0 2px 8px #b2f0c2aa; display: flex; align-items: center; } 
+#dialogo { padding: 16px; background: #e3f3fc; border-radius: 14px; margin-bottom: 12px; min-height: 60px; font-size: 1.1em; box-shadow: 0 2px 8px #b2f0c2aa; display: flex; align-items: center; }
+/* estilos responsivos para el overworld y overlay de victoria */
+.overworld-container {
+  width: 100%;
+  overflow-x: auto;
+  padding: 1rem 0;
+  box-sizing: border-box;
+}
+.overworld-container svg {
+  width: 100%;
+  height: auto;
+  max-height: 60vh;
+}
+.node {
+  transition: transform 0.3s;
+}
+#congrats-overlay {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: rgba(0, 0, 0, 0.75);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+}
+#congrats-overlay .message {
+  background: #fff;
+  padding: 2rem 3rem;
+  border-radius: 12px;
+  font-size: 2rem;
+  font-weight: bold;
+  color: #2a7f62;
+  text-align: center;
+}
