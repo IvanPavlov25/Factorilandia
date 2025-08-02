@@ -9,6 +9,13 @@ test('GameData incluye isla ax²+bx+c', () => {
   assert.equal(isla.enemigos.length, 3);
 });
 
+test('GameData incluye isla Factorilandia con 6 enemigos', () => {
+  const data = new GameData();
+  const isla = data.islas.find(i => i.nombre === 'Factorilandia');
+  assert.ok(isla, 'Debe existir la isla Factorilandia');
+  assert.equal(isla.enemigos.length, 6);
+});
+
 test('mapNodos contiene nodos para la nueva isla', () => {
   const data = new GameData();
   const nodos = data.mapNodos.filter(n => n.isla === 1);
