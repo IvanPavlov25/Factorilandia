@@ -107,7 +107,7 @@ export class GameData {
         }
       },
       {
-        nombre: "Isla ax²+bx+c",
+        nombre: "Trinomio ax²+bx+c",
         tema: "Trinomios generales",
         color: "#F0A0D8",
         descripcion: "En esta isla aprenderás a factorizar trinomios con coeficiente principal distinto de 1.",
@@ -180,7 +180,7 @@ export class GameData {
         {x:970, y:320, tipo:'cofre', isla:0, chestID:'chest6', parchment:5},
         {x:1045, y:260, tipo:'minion', isla:0, idx:5},
         {x:1120, y:320, tipo:'monstruo', isla:0},
-        // Isla 1: ax²+bx+c
+        // Isla 1: Trinomio ax²+bx+c
         {x:145, y:260, tipo:'profesor', isla:1},
         {x:220, y:320, tipo:'cofre', isla:1, chestID:'chest7', parchment:0},
         {x:295, y:260, tipo:'minion', isla:1, idx:0},
