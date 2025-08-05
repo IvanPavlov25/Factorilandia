@@ -31,13 +31,13 @@ export class Game {
   }
   
   // Llamado por OverworldMap cuando se entra a un nodo de combate
-  startCombat3D(tipo, islaIdx, enemigoIdx) {
+  startCombat3D(tipo, islaIdx, enemigoIdx, ejerciciosOverride) {
     const isla = this.data.islas[islaIdx];
     let enemigo;
     if (tipo === 'minion') enemigo = isla.enemigos[enemigoIdx];
     else enemigo = isla.monstruo;
 
-    const ejercicios = enemigo.ejercicios || [{pregunta: enemigo.pregunta, respuesta: enemigo.respuesta}];
+    const ejercicios = ejerciciosOverride || enemigo.ejercicios || [{pregunta: enemigo.pregunta, respuesta: enemigo.respuesta}];
     let idxActual = 0;
     let hpActual = enemigo.salud;
     const hpMax = enemigo.salud;

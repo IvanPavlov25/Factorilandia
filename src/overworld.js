@@ -650,12 +650,12 @@ export class OverworldMap {
         }
       } else {
         // Obtener nombre del monstruo para personalizar el mensaje
-        const nombreMonstruo = this.data.islas[nodo.isla]?.monstruo?.nombre || "Jefe";
-        this.hud.showMessage(`¡Cuidado! ¡${nombreMonstruo} te desafía!`);
-        setTimeout(() => this.game.startCombat3D('monstruo', nodo.isla), 1000);
+          const nombreMonstruo = this.data.islas[nodo.isla]?.monstruo?.nombre || "Jefe";
+          this.hud.showMessage(`¡Cuidado! ¡${nombreMonstruo} te desafía!`);
+          setTimeout(() => this.game.startCombat3D('monstruo', nodo.isla, null, nodo.ejercicios), 1000);
+        }
       }
-    }
-    else if(nodo.tipo === 'profesor') {
+      else if(nodo.tipo === 'profesor') {
       // Mostrar tutorial temático según la isla
       const temaIsla = this.data.islas[nodo.isla]?.tema || "factorización";
       const nombreIsla = this.data.islas[nodo.isla]?.nombre || "esta isla";
