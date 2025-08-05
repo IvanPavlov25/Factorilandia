@@ -188,7 +188,18 @@ export class GameData {
         {x:445, y:260, tipo:'minion', isla:1, idx:1},
         {x:520, y:320, tipo:'cofre', isla:1, chestID:'chest9', parchment:2},
         {x:595, y:260, tipo:'minion', isla:1, idx:2},
-        {x:670, y:320, tipo:'monstruo', isla:1},
+        {
+          x:670,
+          y:320,
+          tipo:'monstruo',
+          isla:1,
+          subtema:'Trinomio general ax² + bx + c',
+          ejercicios:[
+            {pregunta:'¿Factoriza: 2x^2 + 5x + 3?', respuesta:'(2x+3)(x+1)'},
+            {pregunta:'¿Factoriza: 3x^2 + 10x + 7?', respuesta:'(3x+7)(x+1)'},
+            {pregunta:'¿Factoriza: 4a^2 + 11a + 6?', respuesta:'(4a+3)(a+2)'}
+          ]
+        },
       ];
     
     // Rutas alternativas o atajos (para expansión futura)
