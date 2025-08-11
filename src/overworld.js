@@ -461,7 +461,12 @@ export class OverworldMap {
       
       console.log(`Cambio a isla ${nuevaIsla} completado`);
     } else if (nuevaIsla >= this.data.islas.length && this.data.esIslaCompletada(this.islaActual)) {
-      this.hud.showMessage('¡Lo lograste! Felicidades por completar Factorilandia.');
+      this.hud.showMessage('¡Felicidades, lo lograste!');
+      const overlay = document.createElement('div');
+      overlay.id = 'congrats-overlay';
+      overlay.innerHTML = '<div class="message">¡Felicidades, lo lograste!</div>';
+      document.body.appendChild(overlay);
+      document.getElementById('overworld').style.display = 'none';
     }
   }
   
