@@ -2,22 +2,21 @@ import assert from 'node:assert/strict';
 import { test } from 'node:test';
 import { GameData } from '../src/data.js';
 
-test('GameData incluye isla ax²+bx+c', () => {
+test('GameData tiene una sola isla', () => {
   const data = new GameData();
-  const isla = data.islas.find(i => i.nombre.includes('ax²+bx+c'));
-  assert.ok(isla, 'Debe existir la isla ax²+bx+c');
-  assert.equal(isla.enemigos.length, 3);
+  assert.equal(data.islas.length, 1);
 });
 
-test('GameData incluye isla Factorilandia con 6 enemigos', () => {
+test('Factorilandia incluye enemigo ax²+bx+c', () => {
   const data = new GameData();
-  const isla = data.islas.find(i => i.nombre === 'Factorilandia');
-  assert.ok(isla, 'Debe existir la isla Factorilandia');
-  assert.equal(isla.enemigos.length, 6);
+  const isla = data.islas[0];
+  const enemigo = isla.enemigos.find(e => e.nombre.includes('ax²+bx+c'));
+  assert.ok(enemigo, 'Debe existir enemigo ax²+bx+c en Factorilandia');
+  assert.equal(isla.enemigos.length, 7);
 });
 
-test('mapNodos contiene nodos para la nueva isla', () => {
+test('mapNodos no contiene otras islas', () => {
   const data = new GameData();
   const nodos = data.mapNodos.filter(n => n.isla === 1);
-  assert.ok(nodos.length > 0, 'Deben existir nodos para la isla 1');
+  assert.equal(nodos.length, 0);
 });
