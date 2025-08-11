@@ -213,13 +213,13 @@ export class OverworldMap {
           
           // Minions con colores específicos por isla
           icon = `
-            <g transform='translate(-30,-30)'>
-              <circle cx='60' cy='60' r='40' fill='${color}' stroke='#e65100' stroke-width='4'/>
-              <ellipse cx='50' cy='55' rx='8' ry='12' fill='#fff'/>
-              <ellipse cx='70' cy='55' rx='8' ry='12' fill='#fff'/>
-              <ellipse cx='50' cy='55' rx='3' ry='5' fill='#000'/>
-              <ellipse cx='70' cy='55' rx='3' ry='5' fill='#000'/>
-              <ellipse cx='60' cy='75' rx='12' ry='5' fill='#a67c00'/>
+            <g transform='translate(-25,-25)'>
+              <circle cx='50' cy='50' r='30' fill='${color}' stroke='#e65100' stroke-width='4'/>
+              <ellipse cx='40' cy='45' rx='6' ry='9' fill='#fff'/>
+              <ellipse cx='60' cy='45' rx='6' ry='9' fill='#fff'/>
+              <ellipse cx='40' cy='45' rx='2' ry='4' fill='#000'/>
+              <ellipse cx='60' cy='45' rx='2' ry='4' fill='#000'/>
+              <ellipse cx='50' cy='62' rx='9' ry='4' fill='#a67c00'/>
             </g>`;
         } else {
           // Nodo vacío con marca de derrotado 

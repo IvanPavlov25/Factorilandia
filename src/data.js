@@ -136,8 +136,9 @@ export class GameData {
         {x:895, y:260, tipo:'minion', isla:0, idx:4},
         {x:970, y:320, tipo:'cofre', isla:0, chestID:'chest6', parchment:5},
         {x:1045, y:260, tipo:'minion', isla:0, idx:5},
-        {x:1120, y:260, tipo:'minion', isla:0, idx:6},
-        {x:1195, y:320, tipo:'monstruo', isla:0},
+        {x:1120, y:320, tipo:'cofre', isla:0, chestID:'chest7', parchment:6},
+        {x:1195, y:260, tipo:'minion', isla:0, idx:6},
+        {x:1270, y:320, tipo:'monstruo', isla:0},
       ];
     
     // Rutas alternativas o atajos (para expansión futura)
@@ -174,6 +175,10 @@ export class GameData {
       {
         titulo: "Diferencia de cuadrados",
         contenido: "Forma: a² - b² = (a + b)(a - b). Ejemplo: x² - 16 = (x + 4)(x - 4)"
+      },
+      {
+        titulo: "Sumas y diferencias de cubos",
+        contenido: "Forma: a³ ± b³ = (a ± b)(a² ∓ ab + b²). Ejemplo: x³ + 8 = (x + 2)(x² - 2x + 4)"
       }
     ];
   }
