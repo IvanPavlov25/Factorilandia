@@ -93,7 +93,7 @@ export class GameData {
             respuesta: "(x+4)(x-4)"
           },
           {
-            nombre: "Monstruo ax²+bx+c",
+            nombre: "Monstruo cuadrático",
             salud: 100,
             color: "#f06292",
             ejercicios: [
@@ -106,7 +106,7 @@ export class GameData {
           }
         ],
         monstruo: {
-          nombre: "Gran Factorizador",
+          nombre: "Alastair",
           salud: 120,
           ejercicios: [
             {pregunta: "¿Factoriza: 8m^2 - 12m?", respuesta: "4m(2m-3)"},
@@ -176,10 +176,10 @@ export class GameData {
         titulo: "Diferencia de cuadrados",
         contenido: "Forma: a² - b² = (a + b)(a - b). Ejemplo: x² - 16 = (x + 4)(x - 4)"
       },
-      {
-        titulo: "Sumas y diferencias de cubos",
-        contenido: "Forma: a³ ± b³ = (a ± b)(a² ∓ ab + b²). Ejemplo: x³ + 8 = (x + 2)(x² - 2x + 4)"
-      }
+        {
+          titulo: "Trinomio de la forma ax² + bx + c",
+          contenido: "• Objetivo: factorizar ax² + bx + c (a, b, c ∈ ℤ, a ≠ 0).\n• Paso 1: calcula a·c.\n• Paso 2: encuentra dos números p y q tales que p·q = a·c y p + q = b.\n• Paso 3: reescribe bx como px + qx y factoriza por agrupación.\n• Ejemplo: 2x² + 5x + 2 = 2x² + 4x + x + 2 = 2x(x + 2) + 1(x + 2) = (2x + 1)(x + 2)."
+        }
     ];
   }
   
