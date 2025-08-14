@@ -7,11 +7,11 @@ test('GameData tiene una sola isla', () => {
   assert.equal(data.islas.length, 1);
 });
 
-test('Factorilandia incluye enemigo ax²+bx+c', () => {
+test('Factorilandia incluye enemigo cuadrático', () => {
   const data = new GameData();
   const isla = data.islas[0];
-  const enemigo = isla.enemigos.find(e => e.nombre.includes('ax²+bx+c'));
-  assert.ok(enemigo, 'Debe existir enemigo ax²+bx+c en Factorilandia');
+  const enemigo = isla.enemigos.find(e => e.nombre.includes('cuadrático'));
+  assert.ok(enemigo, 'Debe existir enemigo cuadrático en Factorilandia');
   assert.equal(isla.enemigos.length, 7);
 });
 
